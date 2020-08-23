@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { View, StyleSheet, TextInput, Button, Text, Alert } from "react-native";
+import { THEME } from "../themes";
 
 // Form to push new task
-export const AddTodo = ({ onSubmit }) => {
+export const AddTask = ({ onSubmit }) => {
   // hook contains task title (value) and method to change title
   const [value, setValue] = useState("");
 
@@ -25,13 +26,14 @@ export const AddTodo = ({ onSubmit }) => {
         autoCorret={false}
         autoCapitalize="none"
       />
-      <Button style={styles.button} title="Add" onPress={pressHandler} />
+      <Button style={styles.button} title="+" onPress={pressHandler} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   block: {
+    marginTop: 5,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-around",
@@ -41,7 +43,9 @@ const styles = StyleSheet.create({
     width: "70%",
     borderStyle: "solid",
     borderBottomWidth: 1,
-    borderBottomColor: "black",
+    borderBottomColor: THEME.GREY_COLOR,
   },
-  button: {},
+  button: {
+    borderRadius: 0,
+  },
 });
