@@ -2,12 +2,12 @@ import React, {useState} from "react";
 import { Modal, View, TextInput, StyleSheet, Button } from "react-native";
 import { THEME } from "../themes";
 
-export const ModalEdit = ({visible, setModalEdit, value}) => {
+export const ModalEdit = ({visible, setModalEdit, value, onSave}) => {
   const [title, setTitle] = useState(value)
 
   const saveHandler = () => {
     if (title.trim()) {
-      
+      onSave(title)
     }
   }
 

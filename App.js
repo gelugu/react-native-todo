@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View, FlatList } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 import { Navbar } from "./src/components/Navbar"; //App header element
 import { TaskListLayout } from "./src/layouts/TaskListLayout";
@@ -9,13 +9,14 @@ import { TaskLayout } from "./src/layouts/TaskLayout";
 export default function App() {
   // hook contain tasks array and method to change this array
   const [tasks, setTask] = useState([
-    {id: '1', title: 'Learn reactNative'},
-    {id: '2', title: 'Learn'}
+    // { id: "1", title: "Learn reactNative" },
+    // { id: "2", title: "Write app" },
   ]);
+
   // method to add new task
   const addTask = (title) => {
-    setTask((prev) => [
-      ...prev, // get current tasks array
+    setTask((taskArray) => [
+      ...taskArray, // get current tasks array
       // push new task in back
       {
         id: Date.now().toString(),
@@ -23,31 +24,46 @@ export default function App() {
       },
     ]);
   };
+
   // methid to remove task by 'id'
   const removeTask = (id) => {
-    setTaskId(null)
+    setTaskId(null);
     setTask((prev) => prev.filter((taks) => taks.id !== id));
   };
 
-  const [taskId, setTaskId] = useState(null)
-  let content =
-    taskId ?
-      <TaskLayout
-        goBack={() => setTaskId(null)}
-        task={tasks.find(task => task.id === taskId)}
-        removeTask={removeTask}
-      /> :
-      <TaskListLayout
-        tasks={tasks}
-        addTask={addTask}
-        removeTask={removeTask}
-        openTask={setTaskId}
-      />
+  // metho to change task name
+  const updateTask = (id, title) => {
+    setTask((taskList) =>
+      taskList.map((task) => {
+        if (task.id === id) task.title = title;
+        return task;
+      })
+    );
+  };
 
-  return <View>
-    <Navbar />
-    {content}
-  </View>;
+  // hook contain current id and method to set this
+  const [taskId, setTaskId] = useState(null);
+
+  return (
+    <View>
+      <Navbar />
+      {taskId ? (
+        <TaskLayout
+          goBack={() => setTaskId(null)}
+          task={tasks.find((task) => task.id === taskId)}
+          removeTask={removeTask}
+          onSave={updateTask}
+        />
+      ) : (
+        <TaskListLayout
+          tasks={tasks}
+          addTask={addTask}
+          removeTask={removeTask}
+          openTask={setTaskId}
+        />
+      )}
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({});

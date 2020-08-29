@@ -6,20 +6,24 @@ import { THEME } from "../themes";
 export const Navbar = (props) => {
   return (
     <View style={styles.navbar}>
-      {/* <Text style={styles.text}>ToDo app</Text> */}
+      <Text style={styles.text}>gelugu</Text>
+      <Text style={styles.text}>to-to</Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   navbar: {
+    marginLeft: 20,
+    marginRight: 30, 
     height: 30,
-    backgroundColor: THEME.MAIN_COLOR, 
+    // backgroundColor: THEME.MAIN_COLOR,
+    flexDirection: 'row',
     alignItems: "center",
-    justifyContent: "flex-end",
+    justifyContent: "space-between",
   },
   text: {
     color: THEME.TEXT_COLOR,
-    fontSize: 26,
+    fontSize: 20,
   },
 });
