@@ -1,24 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { StyleSheet, View, TextInput } from "react-native";
 
 import { THEME } from "../themes";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 
-import { ModalEdit } from "../components/ModalEdit";
 import { AppButton } from "../components/ui/AppButton";
 
+import { taskContext } from "../context/task/taskContext";
+import { screenContext } from "../context/screen/screenContext";
+
 // task view and edit component
-export const TaskLayout = ({ goBack, task, removeTask, onSave }) => {
-  // hook for show/close modal edit
-  const [modalEdit, setModalEdit] = useState(false);
+export const TaskLayout = () => {
+  const { tasks, removeTask, updateTask } = useContext(taskContext);
+  const { taskId, changeScreen } = useContext(screenContext);
+
+  // const [modal, setModal] = useState(false);
+  const [title, setTitle] = useState(tasks.find((task) => task.id === taskId).title);
 
   // task save method
-  const saveHandler = (title) => {
-    onSave(task.id, title);
-    setModalEdit(false);
+  const saveHandler = () => {
+    updateTask(taskId, title);
   };
-
-  const [caret, setCaret] = useState(false);
 
   return (
     <View style={styles.content}>
@@ -27,13 +29,11 @@ export const TaskLayout = ({ goBack, task, removeTask, onSave }) => {
           style={styles.inputTitle}
           autoCapitalize="none"
           autoCorrect={false}
-          clearButtonMode="while-editing"
-          defaultValue={task.title}
-          onChangeText={saveHandler}
-          maxLength={20} // set as SETTING.MAX_TITLE_LENGTH
-          caretHidden={caret}
-          onBlur={setCaret.bind(null, true)}
-          onEndEditing={setCaret.bind(null, false)}
+          clearButtonMode="always"
+          defaultValue={title}
+          onChangeText={setTitle}
+          onSubmitEditing={saveHandler}
+          maxLength={20} // set as SETTING.MAX_TITLE_LENGTH & push full input to "aboutTask"
           placeholder="Go sleep..." // placeholders array
           returnKeyType="done"
           selectTextOnFocus={true}
@@ -41,10 +41,10 @@ export const TaskLayout = ({ goBack, task, removeTask, onSave }) => {
       </View>
 
       <View style={styles.buttons}>
-        <AppButton onPress={goBack}>
+        <AppButton onPress={changeScreen.bind(null, null)}>
           <MaterialIcons name="arrow-back" size={24} color="black" />
         </AppButton>
-        <AppButton onPress={removeTask.bind(null, task.id)}>
+        <AppButton onPress={removeTask.bind(null, taskId)}>
           <MaterialCommunityIcons
             name="delete-outline"
             size={24}
@@ -52,12 +52,6 @@ export const TaskLayout = ({ goBack, task, removeTask, onSave }) => {
           />
         </AppButton>
       </View>
-      {/* <ModalEdit
-        visible={modalEdit}
-        setModalEdit={setModalEdit}
-        value={task.title}
-        onSave={saveHandler}
-      /> */}
     </View>
   );
 };
@@ -85,7 +79,7 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   inputTitle: {
-    padding: 5,
+    padding: 3,
     width: "100%",
   },
 });
