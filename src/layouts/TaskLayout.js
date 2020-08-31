@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { StyleSheet, View, TextInput } from "react-native";
+import { StyleSheet, View, TextInput, Dimensions } from "react-native";
 
 import { THEME } from "../themes";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
@@ -15,7 +15,9 @@ export const TaskLayout = () => {
   const { taskId, changeScreen } = useContext(screenContext);
 
   // const [modal, setModal] = useState(false);
-  const [title, setTitle] = useState(tasks.find((task) => task.id === taskId).title);
+  const [title, setTitle] = useState(
+    tasks.find((task) => task.id === taskId).title
+  );
 
   // task save method
   const saveHandler = () => {
@@ -42,12 +44,12 @@ export const TaskLayout = () => {
 
       <View style={styles.buttons}>
         <AppButton onPress={changeScreen.bind(null, null)}>
-          <MaterialIcons name="arrow-back" size={24} color="black" />
+          <MaterialIcons name="arrow-back" size={30} color={THEME.MAIN_COLOR} />
         </AppButton>
         <AppButton onPress={removeTask.bind(null, taskId)}>
           <MaterialCommunityIcons
             name="delete-outline"
-            size={24}
+            size={30}
             color={THEME.RED_COLOR}
           />
         </AppButton>
@@ -58,28 +60,27 @@ export const TaskLayout = () => {
 
 const styles = StyleSheet.create({
   content: {
-    height: "96%",
+    height: Dimensions.get("window").height,
     justifyContent: "space-between",
-    paddingHorizontal: 30,
-    paddingVertical: 20,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
   },
 
   buttons: {
     flexDirection: "row",
     justifyContent: "space-around",
   },
-  delete: {},
   title: {
-    flexDirection: "row",
+    flexDirection: "column",
     alignItems: "center",
     justifyContent: "space-between",
-    borderWidth: 1,
-    borderColor: THEME.GREY_COLOR,
-    borderRadius: 10,
-    padding: 5,
   },
   inputTitle: {
-    padding: 3,
+    borderWidth: 1,
+    borderColor: THEME.GREY_COLOR,
+    borderRadius: 5,
+    fontSize: 16,
+    padding: 5,
     width: "100%",
-  },
+  }
 });

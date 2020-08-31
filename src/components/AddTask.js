@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, StyleSheet, TextInput, Keyboard } from "react-native";
 
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from "@expo/vector-icons";
 
 import { AppButton } from "./ui/AppButton";
 import { THEME } from "../themes";
@@ -30,34 +30,26 @@ export const AddTask = ({ onSubmit }) => {
         autoCapitalize="none"
         clearButtonMode="always"
         maxLength={20} // set as SETTING.MAX_TITLE_LENGTH
-        // caretHidden={caret}
-        // onBlur={setCaret.bind(null, true)}
-        // onEndEditing={setCaret.bind(null, false)}
       />
-      <AppButton
-        style={styles.button}
-        onPress={pressHandler}>
-          <MaterialIcons size={28} name="add"/>
-        </AppButton>
+      <AppButton style={styles.button} onPress={pressHandler}>
+        <MaterialIcons size={30} name="add" />
+      </AppButton>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   block: {
-    marginTop: 5,
+    paddingVertical: 5,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
+    width: "100%",
   },
   input: {
-    padding: 5,
-    width: "80%",
-    borderStyle: "solid",
+    fontSize: 20,
+    width: "90%",
     borderBottomWidth: 1,
     borderBottomColor: THEME.GREY_COLOR,
-  },
-  button: {
-    backgroundColor: "transparent",
   },
 });

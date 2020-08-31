@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
-import { StyleSheet, View, FlatList, Image, Dimensions } from "react-native";
+import { StyleSheet, View, FlatList, Image, Dimensions, Modal } from "react-native";
 
 import { AddTask } from "../components/AddTask";
 import { Task } from "../components/Task";
 import { taskContext } from "../context/task/taskContext";
 import { screenContext } from "../context/screen/screenContext";
+import { THEME } from "../themes";
 
 //  task list element
 export const TaskListLayout = () => {
@@ -36,6 +37,7 @@ export const TaskListLayout = () => {
         <View style={styles.addTask}>
           <AddTask onSubmit={addTask} />
         </View>
+
       </View>
     </View>
   );
@@ -43,17 +45,21 @@ export const TaskListLayout = () => {
 
 const styles = StyleSheet.create({
   container: {
-    height: Dimensions.get("window").height * 0.9,
-    width: Dimensions.get("window").width * 0.9,
+    height: Dimensions.get("window").height,
+    width: Dimensions.get("window").width,
+    justifyContent: "space-between",
+    paddingHorizontal: 10,
+    paddingVertical: 10,
   },
   list: {
-    height: "100%",
-    paddingVertical: 5,
+    maxHeight: "90%",
+    borderBottomWidth: 1,
+    borderBottomColor: THEME.MAIN_COLOR,
   },
   addTask: {
-    alignSelf: "flex-end",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
+    marginBottom: 10,
   },
   imageWrap: {
     alignItems: "center",
