@@ -1,31 +1,16 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Dimensions } from "react-native";
 import { THEME } from "../themes";
 
-import {AppText} from "./ui/AppText"
-
 // App header
-export const Navbar = (props) => {
-  return (
-    <View style={styles.navbar}>
-      <AppText style={styles.text}>gelugu</AppText>
-      <AppText style={styles.text}>to-to</AppText>
-    </View>
-  );
+export const Navbar = () => {
+  return <View style={styles.navbar} />;
 };
 
 const styles = StyleSheet.create({
   navbar: {
-    marginLeft: 20,
-    marginRight: 30, 
-    height: 30,
-    // backgroundColor: THEME.MAIN_COLOR,
-    flexDirection: 'row',
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  text: {
-    color: THEME.TEXT_COLOR,
-    fontSize: 20,
+    height: (Dimensions.get("screen").height - Dimensions.get("window").height) || 30,  // 30 for ios ???
+    borderBottomWidth: 1,
+    borderBottomColor: THEME.MAIN_COLOR,
   },
 });
