@@ -3,5 +3,4 @@ export const THEME = {
   GREY_COLOR: "#757575",
   RED_COLOR: "#e53935",
   TEXT_COLOR: "#d7d7d7",
-
 }

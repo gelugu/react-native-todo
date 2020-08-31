@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
+import {useFonts} from "expo-font";
+import { AppLoading } from "expo";
 
 import { Navbar } from "./src/components/Navbar"; //App header element
 import { TaskListLayout } from "./src/layouts/TaskListLayout";
@@ -7,10 +9,17 @@ import { TaskLayout } from "./src/layouts/TaskLayout";
 
 //  main app element
 export default function App() {
+
+  // fonts loading switch
+  const [fontsLoaded] = useFonts({
+    "rotota-regular": require("./assets/fonts/Roboto-Regular.ttf"),
+    "rotota-bold": require("./assets/fonts/Roboto-Bold.ttf"),
+  });
+
   // hook contain tasks array and method to change this array
   const [tasks, setTask] = useState([
-    // { id: "1", title: "Learn reactNative" },
-    // { id: "2", title: "Write app" },
+    { id: "1", title: "Learn reactNative" },
+    { id: "2", title: "Write app" },
   ]);
 
   // method to add new task
@@ -44,7 +53,7 @@ export default function App() {
   // hook contain current id and method to set this
   const [taskId, setTaskId] = useState(null);
 
-  return (
+  return fontsLoaded ? (
     <View>
       <Navbar />
       {taskId ? (
@@ -63,6 +72,8 @@ export default function App() {
         />
       )}
     </View>
+  ) : (
+    <AppLoading/>
   );
 }
 

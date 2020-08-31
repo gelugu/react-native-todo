@@ -1,8 +1,11 @@
 import React, { useState } from "react";
-import { StyleSheet, View, TextInput, Button } from "react-native";
+import { StyleSheet, View, TextInput } from "react-native";
 
 import { THEME } from "../themes";
+import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
+
 import { ModalEdit } from "../components/ModalEdit";
+import { AppButton } from "../components/ui/AppButton";
 
 // task view and edit component
 export const TaskLayout = ({ goBack, task, removeTask, onSave }) => {
@@ -15,36 +18,39 @@ export const TaskLayout = ({ goBack, task, removeTask, onSave }) => {
     setModalEdit(false);
   };
 
-  const [caret, setCaret] = useState(false)
+  const [caret, setCaret] = useState(false);
 
   return (
     <View style={styles.content}>
       <View style={styles.title}>
         <TextInput
           style={styles.inputTitle}
-          autoCapitalize='none'
+          autoCapitalize="none"
           autoCorrect={false}
           clearButtonMode="while-editing"
           defaultValue={task.title}
           onChangeText={saveHandler}
-          maxLength={20}  // set as SETTING.MAX_TITLE_LENGTH
+          maxLength={20} // set as SETTING.MAX_TITLE_LENGTH
           caretHidden={caret}
           onBlur={setCaret.bind(null, true)}
           onEndEditing={setCaret.bind(null, false)}
-          placeholder='Go sleep...' // placeholders array
-          returnKeyType='done'
+          placeholder="Go sleep..." // placeholders array
+          returnKeyType="done"
           selectTextOnFocus={true}
         />
       </View>
 
       <View style={styles.buttons}>
-        <Button title="Back" color={THEME.GREY_COLOR} onPress={goBack} />
-        <Button
-        style={styles.delete}
-          title="Delete task"
-          color={THEME.RED_COLOR}
-          onPress={removeTask.bind(null, task.id)}
-        />
+        <AppButton onPress={goBack}>
+          <MaterialIcons name="arrow-back" size={24} color="black" />
+        </AppButton>
+        <AppButton onPress={removeTask.bind(null, task.id)}>
+          <MaterialCommunityIcons
+            name="delete-outline"
+            size={24}
+            color={THEME.RED_COLOR}
+          />
+        </AppButton>
       </View>
       {/* <ModalEdit
         visible={modalEdit}
@@ -58,29 +64,28 @@ export const TaskLayout = ({ goBack, task, removeTask, onSave }) => {
 
 const styles = StyleSheet.create({
   content: {
-    margin: 10,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    height: '93%'
+    height: "96%",
+    justifyContent: "space-between",
+    paddingHorizontal: 30,
+    paddingVertical: 20,
   },
 
   buttons: {
     flexDirection: "row",
     justifyContent: "space-around",
   },
-  delete: {
-  },
+  delete: {},
   title: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: THEME.GREY_COLOR,
     borderRadius: 10,
-    padding: 5
+    padding: 5,
   },
   inputTitle: {
     padding: 5,
-    width: "100%"
+    width: "100%",
   },
 });

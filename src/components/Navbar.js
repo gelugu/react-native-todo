@@ -1,13 +1,15 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { THEME } from "../themes";
+
+import {AppText} from "./ui/AppText"
 
 // App header
 export const Navbar = (props) => {
   return (
     <View style={styles.navbar}>
-      <Text style={styles.text}>gelugu</Text>
-      <Text style={styles.text}>to-to</Text>
+      <AppText style={styles.text}>gelugu</AppText>
+      <AppText style={styles.text}>to-to</AppText>
     </View>
   );
 };

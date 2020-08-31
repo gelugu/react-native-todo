@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import { View, StyleSheet, TextInput, Button, Text } from "react-native";
+import { View, StyleSheet, TextInput, Keyboard } from "react-native";
+
+import { MaterialIcons } from '@expo/vector-icons';
+
+import { AppButton } from "./ui/AppButton";
 import { THEME } from "../themes";
 
 // Form to push new task
@@ -11,6 +15,7 @@ export const AddTask = ({ onSubmit }) => {
     if (value.trim()) {
       onSubmit(value);
       setValue("");
+      Keyboard.dismiss();
     }
   };
 
@@ -24,12 +29,16 @@ export const AddTask = ({ onSubmit }) => {
         autoCorret={false}
         autoCapitalize="none"
         clearButtonMode="always"
-        maxLength={20}  // set as SETTING.MAX_TITLE_LENGTH
-          // caretHidden={caret}
-          // onBlur={setCaret.bind(null, true)}
-          // onEndEditing={setCaret.bind(null, false)}
+        maxLength={20} // set as SETTING.MAX_TITLE_LENGTH
+        // caretHidden={caret}
+        // onBlur={setCaret.bind(null, true)}
+        // onEndEditing={setCaret.bind(null, false)}
       />
-      <Button style={styles.button} title="+" onPress={pressHandler} />
+      <AppButton
+        style={styles.button}
+        onPress={pressHandler}>
+          <MaterialIcons size={28} name="add"/>
+        </AppButton>
     </View>
   );
 };
@@ -49,5 +58,6 @@ const styles = StyleSheet.create({
     borderBottomColor: THEME.GREY_COLOR,
   },
   button: {
+    backgroundColor: "transparent",
   },
 });
