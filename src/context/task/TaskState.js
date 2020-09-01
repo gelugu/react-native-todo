@@ -13,6 +13,7 @@ import {
   FETCH_TASKS,
 } from "../types";
 import { screenContext } from "../screen/screenContext";
+import { Http } from "../../http";
 
 export const TaskState = ({ children }) => {
   const { changeScreen } = useContext(screenContext);
@@ -25,41 +26,44 @@ export const TaskState = ({ children }) => {
   const [state, dispatch] = useReducer(taskReducer, initialState);
 
   const addTask = async (title) => {
-    const response = await fetch(
-      "https://rn-todo-45132.firebaseio.com/tasks.json",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title,
-        }),
-      }
-    );
-    const data = await response.json();
-    console.log("id", data);
-    dispatch({ type: ADD_TASK, title, id: data.name });
+    clearError();
+    try {
+      const data = await Http.post(
+        "https://rn-todo-45132.firebaseio.com/tasks.json",
+        { title }
+      );
+      dispatch({ type: ADD_TASK, title, id: data.name });
+    } catch (error) {
+      showError(error);
+    }
   };
-  const removeTask = (id) => {
-    changeScreen(null);
-    dispatch({ type: REMOVE_TASK, id });
+  const removeTask = async (id) => {
+    try {
+      await Http.delete(
+        `https://rn-todo-45132.firebaseio.com/tasks/${id}.json`
+      );
+      changeScreen(null);
+      dispatch({ type: REMOVE_TASK, id });
+    } catch (error) {
+      showError(`Error: ${error}`);
+    }
   };
-  const updateTask = (id, title) => dispatch({ type: UPDATE_TASK, id, title });
+  const updateTask = async (id, title) => {
+    try {
+      Http.patch(`https://rn-todo-45132.firebaseio.com/tasks/${id}.json`, {
+        title,
+      });
+      dispatch({ type: UPDATE_TASK, id, title });
+    } catch (error) {
+      showError(`Error: ${error}`);
+    }
+  };
 
   const fetchTasks = async () => {
     showLoader();
     clearError();
     try {
-      const response = await fetch(
-        "https://rn-todo-45132.firebaseio.com/tasks.json",
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const data = await response.json();
+      const data = await Http.get("https://rn-todo-45132.firebaseio.com/tasks.json")
       const tasks = Object.keys(data).map((key) => ({ ...data[key], id: key }));
       dispatch({ type: FETCH_TASKS, tasks });
     } catch (error) {

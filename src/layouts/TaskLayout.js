@@ -20,8 +20,8 @@ export const TaskLayout = () => {
   );
 
   // task save method
-  const saveHandler = () => {
-    updateTask(taskId, title);
+  const saveHandler = async () => {
+    await updateTask(taskId, title);
   };
 
   return (
