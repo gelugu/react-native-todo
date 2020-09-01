@@ -1,12 +1,21 @@
-import { ADD_TASK, REMOVE_TASK, UPDATE_TASK } from "../types";
+import {
+  ADD_TASK,
+  REMOVE_TASK,
+  UPDATE_TASK,
+  SHOW_LOADER,
+  HIDE_LOADER,
+  CLEAR_ERROR,
+  SHOW_ERROR,
+  FETCH_TASKS,
+} from "../types";
 
 const handlers = {
-  [ADD_TASK]: (state, { title }) => ({
+  [ADD_TASK]: (state, { title, id }) => ({
     ...state,
     tasks: [
       ...state.tasks,
       {
-        id: Date.now().toString(),
+        id,
         title,
       },
     ],
@@ -22,6 +31,13 @@ const handlers = {
       return task;
     }),
   }),
+
+  [FETCH_TASKS]: (state, { tasks }) => ({ ...state, tasks }),
+  [SHOW_LOADER]: (state) => ({ ...state, loading: true }),
+  [HIDE_LOADER]: (state) => ({ ...state, loading: false }),
+  [SHOW_ERROR]: (state, { error }) => ({ ...state, error }),
+  [CLEAR_ERROR]: (state) => ({ ...state, error: null }),
+
   DEFAULT: (state) => state,
 };
 
