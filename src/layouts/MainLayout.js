@@ -10,9 +10,10 @@ import { taskContext } from "../context/task/taskContext";
 import { AppLoader } from "../components/ui/AppLoader";
 import { AppText } from "../components/ui/AppText";
 import { THEME } from "../themes";
+import { BoardLayout } from "./BoardLayout";
 
 export const MainLayout = () => {
-  const { taskId } = useContext(screenContext);
+  const { taskId, boardId } = useContext(screenContext);
   const { fetchTasks, loading, error } = useContext(taskContext);
 
   const loadTasks = useCallback(async () => await fetchTasks(), [fetchTasks]);
@@ -38,7 +39,13 @@ export const MainLayout = () => {
   return (
     <View>
       <Navbar />
-      {taskId ? <TaskLayout /> : <TaskListLayout />}
+      {!boardId ? (
+        <BoardLayout />
+      ) : taskId ? (
+        <TaskLayout />
+      ) : (
+        <TaskListLayout />
+      )}
     </View>
   );
 };

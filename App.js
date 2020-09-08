@@ -5,6 +5,7 @@ import { AppLoading } from "expo";
 import { MainLayout } from "./src/layouts/MainLayout";
 import { TaskState } from "./src/context/task/TaskState";
 import { ScreenState } from "./src/context/screen/ScreenState";
+import { BoardState } from "./src/context/board/BoardState";
 
 //  main app element
 export default function App() {
@@ -15,11 +16,14 @@ export default function App() {
   });
 
   return fontsLoaded ? (
-    <ScreenState>
-      <TaskState>
-        <MainLayout />
-      </TaskState>
-    </ScreenState>
+    <BoardState>
+      <ScreenState>
+        <TaskState>
+          <MainLayout />
+        </TaskState>
+      </ScreenState>
+      
+    </BoardState>
   ) : (
     <AppLoading />
   );

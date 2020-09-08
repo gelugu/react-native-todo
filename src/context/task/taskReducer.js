@@ -1,7 +1,7 @@
 import {
   ADD_TASK,
   REMOVE_TASK,
-  UPDATE_TASK,
+  RENAME_TASK,
   SHOW_LOADER,
   HIDE_LOADER,
   CLEAR_ERROR,
@@ -24,7 +24,7 @@ const handlers = {
     ...state,
     tasks: state.tasks.filter((task) => task.id !== id),
   }),
-  [UPDATE_TASK]: (state, { id, title }) => ({
+  [RENAME_TASK]: (state, { id, title }) => ({
     ...state,
     tasks: state.tasks.map((task) => {
       if (task.id === id) task.title = title;
@@ -42,6 +42,6 @@ const handlers = {
 };
 
 export const taskReducer = (state, action) => {
-  const handler = handlers[action.type] || action.DEFAULT;
+  const handler = handlers[action.type] || handlers.DEFAULT;
   return handler(state, action);
 };
