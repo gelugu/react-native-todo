@@ -15,7 +15,6 @@ import {
 import { Http } from "../../http";
 
 export const BoardState = ({ children }) => {
-
   const initialState = {
     boards: [],
     loading: false,
@@ -23,14 +22,25 @@ export const BoardState = ({ children }) => {
   };
   const [state, dispatch] = useReducer(boardReducer, initialState);
 
-  const addBoard = async (title) => {
+  const addBoard = async (board) => {
     clearError();
     try {
       const data = await Http.post(
         "https://rn-todo-45132.firebaseio.com/boards.json",
-        { title }
+        board
       );
-      dispatch({ type: ADD_BOARD, title, id: data.name });
+
+      setTimeout(() => {
+        console.log(data)
+      }, 1000)
+      
+      console.dir("data", data)
+      dispatch({
+        type: ADD_BOARD,
+        title: board.title,
+        tasks: board.tasks,
+        id: data.name
+      });
     } catch (error) {
       showError(error);
     }
@@ -40,7 +50,6 @@ export const BoardState = ({ children }) => {
       await Http.delete(
         `https://rn-todo-45132.firebaseio.com/boards/${id}.json`
       );
-      changeScreen(null);
       dispatch({ type: REMOVE_BOARD, id });
     } catch (error) {
       showError(`Error: ${error}`);
@@ -61,8 +70,13 @@ export const BoardState = ({ children }) => {
     showLoader();
     clearError();
     try {
-      const data = await Http.get("https://rn-todo-45132.firebaseio.com/boards.json")
-      const boards = Object.keys(data).map((key) => ({ ...data[key], id: key }));
+      const data = await Http.get(
+        "https://rn-todo-45132.firebaseio.com/boards.json"
+      );
+      const boards = Object.keys(data).map((key) => ({
+        ...data[key],
+        id: key,
+      }));
       dispatch({ type: FETCH_BOARDS, boards });
     } catch (error) {
       showError(`Error: ${error}`);

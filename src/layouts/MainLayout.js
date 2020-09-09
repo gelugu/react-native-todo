@@ -1,6 +1,6 @@
 import React, { useContext, useCallback, useEffect } from "react";
 
-import { View, Button, StyleSheet } from "react-native";
+import { View, Button, StyleSheet, Dimensions } from "react-native";
 
 import { Navbar } from "../components/Navbar";
 import { TaskLayout } from "./TaskLayout";
@@ -11,15 +11,15 @@ import { AppLoader } from "../components/ui/AppLoader";
 import { AppText } from "../components/ui/AppText";
 import { THEME } from "../themes";
 import { BoardLayout } from "./BoardLayout";
+import { boardContext } from "../context/board/boardContext";
 
 export const MainLayout = () => {
-  const { taskId, boardId } = useContext(screenContext);
-  const { fetchTasks, loading, error } = useContext(taskContext);
+  const { fetchBoards, loading, error  } = useContext(boardContext);
 
-  const loadTasks = useCallback(async () => await fetchTasks(), [fetchTasks]);
+  const loadBoards = useCallback(async () => await fetchBoards(), [fetchBoards]);
 
   useEffect(() => {
-    loadTasks();
+    loadBoards();
   }, []);
 
   if (loading) return <AppLoader style={styles.loader} />;
@@ -29,7 +29,7 @@ export const MainLayout = () => {
       <View style={styles.errorView}>
         <AppText style={styles.errorText}>{error}</AppText>
         <Button
-          onPress={loadTasks}
+          onPress={loadBoards}
           title="Try again"
           color={THEME.MAIN_COLOR}
         />
@@ -37,20 +37,17 @@ export const MainLayout = () => {
     );
 
   return (
-    <View>
+    <View style={styles.container}>
       <Navbar />
-      {!boardId ? (
-        <BoardLayout />
-      ) : taskId ? (
-        <TaskLayout />
-      ) : (
-        <TaskListLayout />
-      )}
+      <BoardLayout />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    height: Dimensions.get("screen").height,
+  },
   loader: {
     flex: 1,
     alignItems: "center",

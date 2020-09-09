@@ -1,36 +1,69 @@
-import React, { useContext } from "react";
-import { Dimensions, StyleSheet, View, Modal, TextInput, FlatList } from "react-native";
+import React, { useContext, useState } from "react";
+import {
+  Dimensions,
+  StyleSheet,
+  View,
+  Modal,
+  TextInput,
+  FlatList,
+  Keyboard,
+} from "react-native";
 
 import { MaterialIcons } from "@expo/vector-icons";
-import { Entypo } from '@expo/vector-icons';
+import { Entypo } from "@expo/vector-icons";
 
 import { THEME } from "../themes";
 import { AppButton } from "./ui/AppButton";
 import { AppText } from "./ui/AppText";
 import { screenContext } from "../context/screen/screenContext";
+import { boardContext } from "../context/board/boardContext";
 
 export const ModalAddBoard = () => {
-  const {addBoard, hideAddBoard} = useContext(screenContext)
-  const taskList = [
-  ];
+  const { addBoardModal, hideAddBoard } = useContext(screenContext);
+  const { addBoard } = useContext(boardContext);
+
+  const [taskList, setTaskList] = useState([]);
+  const [currentTitle, setCurrentTitle] = useState("");
+  const [boardTitle, setBoardTitle] = useState("");
 
   const handleDone = () => {
-    hideAddBoard()
-  }
+    if (boardTitle) {
+      addBoard({
+        title: boardTitle,
+        tasks: taskList
+      })
+      setBoardTitle("");
+    }
+    
+    setTaskList([]);
+    hideAddBoard();
+  };
+
+  const handleAddTask = () => {
+    if (currentTitle) {
+      setTaskList([
+        ...taskList,
+        { title: currentTitle, done: false, id: Date.now() },
+      ]);
+      setCurrentTitle("");
+    }
+  };
 
   return (
     <Modal
       animationType="slide"
       // statusBarTranslucent={false}
       // transparent={false}
-      visible={addBoard}
+      visible={addBoardModal}
     >
       <View style={styles.container}>
         <View style={styles.block}>
           <View style={styles.header}>
             <TextInput
+              value={boardTitle}
               style={styles.title}
               autoFocus={true}
+              onChangeText={setBoardTitle}
             />
             <AppButton onPress={handleDone}>
               <MaterialIcons name="done" size={30} color="black" />
@@ -38,22 +71,32 @@ export const ModalAddBoard = () => {
           </View>
 
           <View style={styles.list}>
-          <FlatList
-            keyExtractor={(item) => item.id.toString()}
-            data={taskList}
-            renderItem={({ item }) => {
-            return (<View style={styles.taskRow}>
-              <Entypo name="dot-single" size={24} color="black" />
-              <AppText>{item.title}</AppText>
-              </View>);
-            }}
+            <FlatList
+              keyExtractor={(item) => item.id.toString()}
+              data={taskList}
+              renderItem={({ item }) => {
+                return (
+                  <View style={styles.taskRow}>
+                    <Entypo name="dot-single" size={24} color="black" />
+                    <AppText>{item.title}</AppText>
+                  </View>
+                );
+              }}
+              ListFooterComponent={
+                <View style={styles.addTaskRow}>
+                  <AppButton>
+                    <MaterialIcons name="add" size={24} color="black" />
+                  </AppButton>
+                  <TextInput
+                    value={currentTitle}
+                    style={styles.addTask}
+                    onChangeText={setCurrentTitle}
+                    onEndEditing={handleAddTask}
+                    // next item focus
+                  />
+                </View>
+              }
             />
-            <View style={styles.addTaskRow}>
-              <AppButton>
-                <MaterialIcons name="add" size={24} color="black" />
-              </AppButton>
-              <TextInput style={styles.addTask} />
-            </View>
           </View>
         </View>
       </View>
@@ -92,7 +135,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 20,
     width: "90%",
-    height: "80%"
+    height: "80%",
   },
   addTaskRow: {
     flexDirection: "row",

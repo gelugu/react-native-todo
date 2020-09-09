@@ -8,7 +8,7 @@ export const ScreenState = ({ children }) => {
   const [state, dispatch] = useReducer(screenReducer, {
     taskId: null,
     boardId: null,
-    addBoard: false,
+    addBoardModal: false,
   });
 
   const changeScreen = (id) => dispatch({ type: CHANGE_SCREEN, id });
@@ -22,7 +22,7 @@ export const ScreenState = ({ children }) => {
       value={{
         taskId: state.taskId,
         boardId: state.boardId,
-        addBoard: state.addBoard,
+        addBoardModal: state.addBoardModal,
         changeScreen,
         changeBoard,
         showAddBoard,

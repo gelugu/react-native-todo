@@ -3,8 +3,8 @@ import { CHANGE_SCREEN, CHANGE_BOARD, SHOW_ADD_BOARD, HIDE_ADD_BOARD } from "../
 const handlers = {
   [CHANGE_SCREEN]: (state, { taskId }) => ({ ...state, taskId }),
   [CHANGE_BOARD]: (state, { boardId }) => ({ ...state, boardId }),
-  [SHOW_ADD_BOARD]: (state) => ({ ...state, addBoard: true }),
-  [HIDE_ADD_BOARD]: (state) => ({ ...state, addBoard: false }),
+  [SHOW_ADD_BOARD]: (state) => ({ ...state, addBoardModal: true }),
+  [HIDE_ADD_BOARD]: (state) => ({ ...state, addBoardModal: false }),
   DEFAULT: (state) => state,
 };
 

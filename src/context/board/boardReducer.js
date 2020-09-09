@@ -10,13 +10,14 @@ import {
 } from "../types";
 
 const handlers = {
-  [ADD_BOARD]: (state, { title, id }) => ({
+  [ADD_BOARD]: (state, { title, id, tasks }) => ({
     ...state,
     boards: [
       ...state.boards,
       {
         id,
         title,
+        tasks,
       },
     ],
   }),
