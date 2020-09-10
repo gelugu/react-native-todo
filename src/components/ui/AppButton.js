@@ -7,13 +7,15 @@ import {
   Platform,
 } from "react-native";
 
-export const AppButton = ({ children, onPress }) => {
+export const AppButton = ({ children, onPress, style }) => {
   const Wrapper =
     Platform.OS === "android" ? TouchableNativeFeedback : TouchableOpacity;
 
   return (
-    <Wrapper onPress={onPress}>
-      <View>{children}</View>
-    </Wrapper>
+    <View style={style}>
+      <Wrapper onPress={onPress}>
+        <View>{children}</View>
+      </Wrapper>
+    </View>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -13,24 +13,34 @@ import { AppText } from "./ui/AppText";
 import { AppButton } from "./ui/AppButton";
 import { MaterialIcons } from "@expo/vector-icons";
 import { boardContext } from "../context/board/boardContext";
+import { BoardConfigurations } from "./BoardConfigurations";
 
-export const Board = ({board}) => {
-  const { removeBoard } = useContext(boardContext)
+export const Board = ({ board }) => {
+  const { removeBoard } = useContext(boardContext);
+  const [isConfig, setIsConfig] = useState(false);
 
   const Wrapper =
     Platform.OS === "android" ? TouchableNativeFeedback : TouchableOpacity;
   return (
-    <Wrapper style={{borderColor: "red", borderWidth: 2}} onLongPress={removeBoard.bind(null, board.id)}>
+    <Wrapper onLongPress={removeBoard.bind(null, board.id)}>
       <View style={styles.board}>
         <View style={styles.header}>
           <AppText style={styles.title}>{board.title}</AppText>
-          <AppButton>
-            <MaterialIcons
-              name="more-horiz"
-              size={35}
-              color={THEME.MAIN_COLOR}
+          {isConfig ? (
+            <BoardConfigurations
+              id={board.id}
+              setIsConfig={setIsConfig}
+              isConfig={isConfig}
             />
-          </AppButton>
+          ) : (
+            <AppButton onPress={setIsConfig.bind(null, true)}>
+              <MaterialIcons
+                name="more-horiz"
+                size={40}
+                color={THEME.MAIN_COLOR}
+              />
+            </AppButton>
+          )}
         </View>
         <FlatList
           keyExtractor={(item) => item.id.toString()}
@@ -73,10 +83,11 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: "row",
+    alignItems: "center",
     justifyContent: "space-between",
     paddingLeft: 15,
-    paddingRight: 5,
-    paddingTop: 10
+    paddingRight: 11,
+    paddingTop: 10,
   },
   title: {
     fontSize: 18,
