@@ -34,7 +34,7 @@ export const Task = ({ task }) => {
       onPress={changeScreen.bind(null, task.id)}
     >
       <View style={styles.task}>
-        <CheckBox />
+        <CheckBox disabled={task.done} onChange={() => {task.done = !task.done}}/>
         <AppText style={styles.taskTitle}>{task.title}</AppText>
       </View>
     </Wrapper>

@@ -51,6 +51,7 @@ export const BoardState = ({ children }) => {
         `https://rn-todo-45132.firebaseio.com/boards/${id}.json`
       );
       dispatch({ type: REMOVE_BOARD, id });
+      const data = await Http.get(`https://rn-todo-45132.firebaseio.com/boards.json`);
     } catch (error) {
       showError(`Error: ${error}`);
     }
@@ -73,11 +74,13 @@ export const BoardState = ({ children }) => {
       const data = await Http.get(
         "https://rn-todo-45132.firebaseio.com/boards.json"
       );
-      const boards = Object.keys(data).map((key) => ({
-        ...data[key],
-        id: key,
-      }));
-      dispatch({ type: FETCH_BOARDS, boards });
+      if (data !== null) {
+        const boards = Object.keys(data).map((key) => ({
+          ...data[key],
+          id: key,
+        }));
+        dispatch({ type: FETCH_BOARDS, boards });
+      }
     } catch (error) {
       showError(`Error: ${error}`);
     } finally {

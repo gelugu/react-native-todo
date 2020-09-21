@@ -15,14 +15,14 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { boardContext } from "../context/board/boardContext";
 import { BoardConfigurations } from "./BoardConfigurations";
 
-export const Board = ({ board }) => {
+export const Board = ({ board, openBoard }) => {
   const { removeBoard } = useContext(boardContext);
   const [isConfig, setIsConfig] = useState(false);
 
   const Wrapper =
     Platform.OS === "android" ? TouchableNativeFeedback : TouchableOpacity;
   return (
-    <Wrapper onLongPress={removeBoard.bind(null, board.id)}>
+    <Wrapper onPress={openBoard.bind(null, board)} onLongPress={removeBoard.bind(null, board.id)}>
       <View style={styles.board}>
         <View style={styles.header}>
           <AppText style={styles.title}>{board.title}</AppText>

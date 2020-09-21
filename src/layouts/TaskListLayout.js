@@ -1,14 +1,25 @@
 import React, { useContext } from "react";
-import { StyleSheet, View, FlatList, Image, Dimensions, Modal } from "react-native";
+import {
+  StyleSheet,
+  View,
+  FlatList,
+  Image,
+  Dimensions,
+  Modal,
+} from "react-native";
 
 import { AddTask } from "../components/AddTask";
 import { Task } from "../components/Task";
 import { taskContext } from "../context/task/taskContext";
 import { screenContext } from "../context/screen/screenContext";
 import { THEME } from "../themes";
+import { AppText } from "../components/ui/AppText";
+import { MaterialIcons } from "@expo/vector-icons";
+import { AppButton } from "../components/ui/AppButton";
 
 //  task list element
-export const TaskListLayout = () => {
+export const TaskListLayout = ({ navigation }) => {
+  const { board } = navigation.state.params;  // use getParam()
   const { tasks, addTask } = useContext(taskContext);
   const { changeScreen } = useContext(screenContext);
 
@@ -16,31 +27,44 @@ export const TaskListLayout = () => {
     <View style={{ alignItems: "center" }}>
       <View style={styles.container}>
         <View style={styles.list}>
-          {tasks.length ? (
-            <FlatList
-              keyExtractor={(item) => item.id.toString()}
-              data={tasks}
-              renderItem={({ item }) => {
-                return <Task task={item} openTask={changeScreen} />;
-              }}
-            />
-          ) : (
-            <View style={styles.imageWrap}>
-              <Image
+          <FlatList
+            keyExtractor={(item) => item.id.toString()}
+            data={board.tasks}
+            renderItem={({ item }) => {
+              return <Task task={item} openTask={changeScreen} />;
+            }}
+            ListEmptyComponent={
+              <View style={styles.imageWrap}>
+                {/* <Image
                 style={styles.image}
                 source={require("../../assets/no-items.png")}
-              />
-            </View>
-          )}
+              /> */}
+                <AppText>Add something to do...</AppText>
+              </View>
+            }
+          />
         </View>
 
         <View style={styles.addTask}>
           <AddTask onSubmit={addTask} />
         </View>
-
       </View>
     </View>
   );
+};
+
+TaskListLayout.navigationOptions = ({navigation}) => {
+  return {
+    headerTitle: navigation.getParam('board').title,
+    headerRight: <AppButton onPress={() => {}}>
+    <MaterialIcons
+    style={{paddingRight: 10}}
+      name="more-horiz"
+      size={40}
+      color={THEME.MAIN_COLOR}
+    />
+  </AppButton>,
+  }
 };
 
 const styles = StyleSheet.create({
