@@ -2,8 +2,6 @@ import React from "react";
 import { useFonts } from "expo-font";
 import { AppLoading } from "expo";
 
-import { TaskState } from "./src/context/task/TaskState";
-import { ScreenState } from "./src/context/screen/ScreenState";
 import { BoardState } from "./src/context/board/BoardState";
 import { AppNavigator } from "./src/navigation/AppNavigation";
 
@@ -15,16 +13,9 @@ export default function App() {
     "rotota-bold": require("./assets/fonts/Roboto-Bold.ttf"),
   });
 
-  return fontsLoaded ? (
-    <BoardState>
-      <ScreenState>
-        <TaskState>
-          <AppNavigator/>
-        </TaskState>
-      </ScreenState>
-      
-    </BoardState>
-  ) : (
-    <AppLoading />
-  );
+  if (!fontsLoaded) return <AppLoading />;
+
+  return <BoardState>
+        <AppNavigator />
+  </BoardState>;
 }

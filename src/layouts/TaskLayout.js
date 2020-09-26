@@ -6,22 +6,19 @@ import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { AppButton } from "../components/ui/AppButton";
 
-import { taskContext } from "../context/task/taskContext";
-import { screenContext } from "../context/screen/screenContext";
+import { boardContext } from "../context/board/boardContext";
 
 // task view and edit component
-export const TaskLayout = () => {
-  const { tasks, removeTask, updateTask } = useContext(taskContext);
-  const { taskId, changeScreen } = useContext(screenContext);
+export const TaskLayout = ({navigation}) => {
+  const { baordId, task } = navigation.state.params; // use getParam()
+  const { removeTask, renameTask } = useContext(boardContext);
 
   // const [modal, setModal] = useState(false);
-  const [title, setTitle] = useState(
-    tasks.find((task) => task.id === taskId).title
-  );
+  const [title, setTitle] = useState(task.title);
 
   // task save method
   const saveHandler = async () => {
-    await updateTask(taskId, title);
+    await renameTask(boardId, task.id, title)
   };
 
   return (
@@ -43,10 +40,7 @@ export const TaskLayout = () => {
       </View>
 
       <View style={styles.buttons}>
-        <AppButton onPress={changeScreen.bind(null, null)}>
-          <MaterialIcons name="arrow-back" size={30} color={THEME.MAIN_COLOR} />
-        </AppButton>
-        <AppButton onPress={removeTask.bind(null, taskId)}>
+        <AppButton onPress={removeTask.bind(null, baordId, task.id)}>
           <MaterialCommunityIcons
             name="delete-outline"
             size={30}
@@ -56,6 +50,22 @@ export const TaskLayout = () => {
       </View>
     </View>
   );
+};
+
+TaskLayout.navigationOptions = ({ navigation }) => {
+  return {
+    headerTitle: navigation.getParam("task").title,
+    headerRight: () => (
+      <AppButton onPress={() => {}}>
+        <MaterialIcons
+          style={{ paddingRight: 10 }}
+          name="more-horiz"
+          size={40}
+          color={THEME.MAIN_COLOR}
+        />
+      </AppButton>
+    ),
+  };
 };
 
 const styles = StyleSheet.create({

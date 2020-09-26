@@ -1,35 +1,51 @@
-import React, { useCallback, useContext, useEffect } from "react";
+// react components
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { StyleSheet, View, FlatList, Dimensions, Button } from "react-native";
+
+// app components
 import { Board } from "../components/Board";
 import { AddBoard } from "../components/AddBoard";
 import { ModalAddBoard } from "../components/ModalAddBoard";
-import { boardContext } from "../context/board/boardContext";
 import { AppButton } from "../components/ui/AppButton";
-import { MaterialIcons } from "@expo/vector-icons";
-import { screenContext } from "../context/screen/screenContext";
 import { AppLoader } from "../components/ui/AppLoader";
 import { AppText } from "../components/ui/AppText";
+
+// context
+import { boardContext } from "../context/board/boardContext";
+
+// style themes
 import { THEME } from "../themes";
 
-export const BoardLayout = ({navigation}) => {
-  const { showAddBoard } = useContext(screenContext);
+// icons
+import { MaterialIcons } from "@expo/vector-icons";
+
+// Boards list layout (screen).
+// Main app scrren, contain all boards.
+export const BoardLayout = ({ navigation }) => {
+  // state for visibility addBoard modal component
+  const [showAddBoard, setShowAddBoard] = useState(false);
+
+  // boards context.
+  // boards - boards array.
+  // fetchBoards - load boards from DB.
+  // loading - state for showing loader component
+  // error - state for showing error
   const { boards, fetchBoards, loading, error } = useContext(boardContext);
 
-  const openBoard = (board) => {
-    navigation.navigate("Tasks", {board})
-  }
-
+  // load boards from DB
   const loadBoards = useCallback(async () => await fetchBoards(), [
     fetchBoards,
   ]);
   useEffect(() => {
     loadBoards();
   }, []);
-  if (loading) return <AppLoader style={styles.loader} />;
+
+  if (loading) return <AppLoader style={styles.loader} />; // TODO: add custom animation
   if (error)
     return (
       <View style={styles.errorView}>
         <AppText style={styles.errorText}>{error}</AppText>
+        {/* add error image (background) */}
         <Button
           onPress={loadBoards}
           title="Try again"
@@ -38,36 +54,54 @@ export const BoardLayout = ({navigation}) => {
       </View>
     );
 
+  // handle, move to board's tasks screen
+  const openBoard = (board) => {
+    navigation.navigate("Tasks", { board });
+  };
+
   return (
     <View style={styles.container}>
       <FlatList
+        style={{ width: "100%" }} // use 2 styles to move scrollbar to the right
+        contentContainerStyle={{ alignItems: "center" }} // use 2 styles to move scrollbar to the right
         keyExtractor={(item) => item.id.toString()}
         data={boards}
         renderItem={({ item }) => {
-          return <Board openBoard={openBoard} board={item} />; //
+          return <Board openBoard={openBoard} board={item} />;
         }}
-        ListFooterComponent={boards.length < 2 ? <AddBoard /> : null}
+        ListFooterComponent={
+          // only show if less then 2 boards
+          boards.length < 2 ? (
+            <AddBoard open={setShowAddBoard.bind(null, true)} />
+          ) : null
+        }
       />
+      {/* when more then 2 boards show small button */}
       {boards.length >= 2 ? (
-        <View style={{ position: "absolute", bottom: 25, right: 25 }}>
-          <AppButton onPress={showAddBoard}>
+        <View style={styles.addButton}>
+          <AppButton onPress={setShowAddBoard.bind(null, true)}>
+            {/* for button bg-white */}
             <MaterialIcons name="add-box" size={50} color="black" />
           </AppButton>
         </View>
       ) : null}
-      <ModalAddBoard />
+      {/* modal component to add new board */}
+      <ModalAddBoard
+        visible={showAddBoard}
+        close={setShowAddBoard.bind(null, false)}
+      />
     </View>
   );
 };
 
+// header options
 BoardLayout.navigationOptions = {
   headerShown: false,
 };
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop:
-      10 + Dimensions.get("screen").height - Dimensions.get("window").height,
+    paddingTop: 10 + THEME.HEADER_HEIGHT,
     flex: 1,
     alignItems: "center",
   },
@@ -83,7 +117,12 @@ const styles = StyleSheet.create({
   },
   errorText: {
     marginBottom: 30,
-    paddingHorizontal: 10,
-    alignContent: "center"
+    paddingHorizontal: 50,
+    alignContent: "center",
+  },
+  addButton: {
+    position: "absolute",
+    bottom: 25,
+    right: 25,
   },
 });

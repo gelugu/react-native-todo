@@ -7,13 +7,13 @@ import { AppButton } from "./ui/AppButton";
 import { THEME } from "../themes";
 
 // Form to push new task
-export const AddTask = ({ onSubmit }) => {
+export const AddTask = ({ boardId, onSubmit }) => {
   // hook contains task title (value) and method to change title
   const [value, setValue] = useState("");
 
   const pressHandler = () => {
     if (value.trim()) {
-      onSubmit(value);
+      onSubmit(boardId, value);
       setValue("");
       Keyboard.dismiss();
     }
@@ -21,6 +21,9 @@ export const AddTask = ({ onSubmit }) => {
 
   return (
     <View style={styles.block}>
+    <AppButton style={styles.button} onPress={pressHandler}>
+      <MaterialIcons size={24} name="add" />
+    </AppButton>
       <TextInput
         style={styles.input}
         onChangeText={setValue}
@@ -29,25 +32,20 @@ export const AddTask = ({ onSubmit }) => {
         autoCorret={false}
         autoCapitalize="none"
         clearButtonMode="always"
-        maxLength={20} // set as SETTING.MAX_TITLE_LENGTH
+        maxLength={30} // set as SETTING.MAX_TITLE_LENGTH
       />
-      <AppButton style={styles.button} onPress={pressHandler}>
-        <MaterialIcons size={30} name="add" />
-      </AppButton>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   block: {
-    paddingVertical: 5,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     width: "100%",
   },
   input: {
-    fontSize: 20,
     width: "90%",
     borderBottomWidth: 1,
     borderBottomColor: THEME.GREY_COLOR,

@@ -3,68 +3,65 @@ import {
   StyleSheet,
   View,
   FlatList,
-  Image,
   Dimensions,
-  Modal,
 } from "react-native";
 
 import { AddTask } from "../components/AddTask";
 import { Task } from "../components/Task";
-import { taskContext } from "../context/task/taskContext";
-import { screenContext } from "../context/screen/screenContext";
 import { THEME } from "../themes";
 import { AppText } from "../components/ui/AppText";
 import { MaterialIcons } from "@expo/vector-icons";
 import { AppButton } from "../components/ui/AppButton";
+import { boardContext } from "../context/board/boardContext";
 
 //  task list element
 export const TaskListLayout = ({ navigation }) => {
-  const { board } = navigation.state.params;  // use getParam()
-  const { tasks, addTask } = useContext(taskContext);
-  const { changeScreen } = useContext(screenContext);
+  const { board } = navigation.state.params; // use getParam()
+  const { addTask } = useContext(boardContext);
 
   return (
-    <View style={{ alignItems: "center" }}>
-      <View style={styles.container}>
-        <View style={styles.list}>
-          <FlatList
-            keyExtractor={(item) => item.id.toString()}
-            data={board.tasks}
-            renderItem={({ item }) => {
-              return <Task task={item} openTask={changeScreen} />;
-            }}
-            ListEmptyComponent={
-              <View style={styles.imageWrap}>
-                {/* <Image
+    <View style={styles.container}>
+      <FlatList
+        style={styles.list}
+        keyExtractor={(item) => item.id.toString()}
+        data={board.tasks}
+        renderItem={({ item }) => {
+          return <Task boardId={board.id} task={item} navigation={navigation}/>;
+        }}
+        ListEmptyComponent={
+          <View style={styles.imageWrap}>
+            {/* <Image
                 style={styles.image}
                 source={require("../../assets/no-items.png")}
               /> */}
-                <AppText>Add something to do...</AppText>
-              </View>
-            }
-          />
-        </View>
-
-        <View style={styles.addTask}>
-          <AddTask onSubmit={addTask} />
-        </View>
-      </View>
+            <MaterialIcons name="no-sim" size={64} color="black" />
+            <AppText>Still no tasks here...</AppText>
+          </View>
+        }
+        ListFooterComponent={
+          <View style={styles.addTask}>
+            <AddTask onSubmit={addTask} boardId={board.id} />
+          </View>
+        }
+      />
     </View>
   );
 };
 
-TaskListLayout.navigationOptions = ({navigation}) => {
+TaskListLayout.navigationOptions = ({ navigation }) => {
   return {
-    headerTitle: navigation.getParam('board').title,
-    headerRight: <AppButton onPress={() => {}}>
-    <MaterialIcons
-    style={{paddingRight: 10}}
-      name="more-horiz"
-      size={40}
-      color={THEME.MAIN_COLOR}
-    />
-  </AppButton>,
-  }
+    headerTitle: navigation.getParam("board").title,
+    // headerRight: () => (
+    //   <AppButton onPress={() => {}}>
+    //     <MaterialIcons
+    //       style={{ paddingRight: 10 }}
+    //       name="more-horiz"
+    //       size={40}
+    //       color={THEME.MAIN_COLOR}
+    //     />
+    //   </AppButton>
+    // ),
+  };
 };
 
 const styles = StyleSheet.create({
@@ -81,9 +78,13 @@ const styles = StyleSheet.create({
     borderBottomColor: THEME.MAIN_COLOR,
   },
   addTask: {
+    flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 10,
+    padding: 5,
+    borderWidth: 1,
+    borderColor: THEME.GREY_COLOR,
+    borderRadius: 5,
+    marginTop: 10,
   },
   imageWrap: {
     alignItems: "center",
