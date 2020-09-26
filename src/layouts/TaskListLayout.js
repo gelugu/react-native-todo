@@ -30,11 +30,7 @@ export const TaskListLayout = ({ navigation }) => {
         }}
         ListEmptyComponent={
           <View style={styles.imageWrap}>
-            {/* <Image
-                style={styles.image}
-                source={require("../../assets/no-items.png")}
-              /> */}
-            <MaterialIcons name="no-sim" size={64} color="black" />
+            <MaterialIcons name="no-sim" size={64} color={THEME.DARK_COLOR} />
             <AppText>Still no tasks here...</AppText>
           </View>
         }
@@ -56,8 +52,8 @@ TaskListLayout.navigationOptions = ({ navigation }) => {
     //     <MaterialIcons
     //       style={{ paddingRight: 10 }}
     //       name="more-horiz"
-    //       size={40}
-    //       color={THEME.MAIN_COLOR}
+    //       size={36}
+    //       color={THEME.DARK_COLOR}
     //     />
     //   </AppButton>
     // ),
@@ -66,35 +62,21 @@ TaskListLayout.navigationOptions = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    height: Dimensions.get("window").height,
-    width: Dimensions.get("window").width,
+    flex: 1,
     justifyContent: "space-between",
     paddingHorizontal: 10,
-    paddingVertical: 10,
   },
   list: {
-    maxHeight: "90%",
-    borderBottomWidth: 1,
-    borderBottomColor: THEME.MAIN_COLOR,
+    flex: 1,
   },
   addTask: {
     flexDirection: "row",
     alignItems: "center",
-    padding: 5,
-    borderWidth: 1,
-    borderColor: THEME.GREY_COLOR,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderWidth: THEME.BORDER_WIDTH,
+    borderColor: THEME.DARK_COLOR,
     borderRadius: 5,
     marginTop: 10,
-  },
-  imageWrap: {
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 10,
-    height: 100,
-  },
-  image: {
-    width: "100%",
-    height: "100%",
-    resizeMode: "contain",
   },
 });

@@ -80,7 +80,6 @@ export const BoardLayout = ({ navigation }) => {
       {boards.length >= 2 ? (
         <View style={styles.addButton}>
           <AppButton onPress={setShowAddBoard.bind(null, true)}>
-            {/* for button bg-white */}
             <MaterialIcons name="add-box" size={50} color="black" />
           </AppButton>
         </View>

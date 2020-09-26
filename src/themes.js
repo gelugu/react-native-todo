@@ -1,13 +1,16 @@
 import { Dimensions } from "react-native";
 
 export const THEME = {
-  MAIN_COLOR: '#656565',
-  GREY_COLOR: "#757575",
-  RED_COLOR: "#e53935",
+  DARK_COLOR: '#2b2d42',
+  GREY_COLOR: "#8d99ae",
+  LIGHT_COLOR: "#edf2f4",
+  RED_COLOR: "#d90429",
+  LIGHT_RED_COLOR: "#ef233c",
   TEXT_COLOR: "#d7d7d7",
 
   FONT_SIZE: 16,
-  FONT_SIZE_BOLD: 24,
+  FONT_SIZE_SMALL: 14,
+  FONT_SIZE_BOLD: 18,
 
   HEADER_HEIGHT: Dimensions.get("screen").height - Dimensions.get("window").height,
 

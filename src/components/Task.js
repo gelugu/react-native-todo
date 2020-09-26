@@ -34,8 +34,8 @@ export const Task = ({ navigation, boardId, task }) => {
   const pressHandler = () => {
     isConfig
       ? setIsConfig(false)
-      // : navigation.navigate("Task", { boardId, task });
-      : null
+      : // : navigation.navigate("Task", { boardId, task });
+        null;
   };
 
   const longPressHandler = () => {
@@ -58,14 +58,16 @@ export const Task = ({ navigation, boardId, task }) => {
       {isConfig ? (
         <View style={styles.config}>
           <View style={styles.configHeader}>
-            <TextInput value={title} onChangeText={setTitle} style={styles.configInput}/>
-            <AppButton onPress={renameHandler}>
-            <MaterialIcons
-                name="done"
-                size={24}
-                color="black"
-              />
-            </AppButton>
+            <TextInput
+              value={title}
+              onChangeText={setTitle}
+              style={styles.configInput}
+            />
+            {title !== task.title ? (
+              <AppButton onPress={renameHandler}>
+                <MaterialIcons name="done" size={24} color={THEME.DARK_COLOR} />
+              </AppButton>
+            ) : null}
           </View>
           <View style={styles.configButtons}>
             <AppButton onPress={removeHandler}>
@@ -87,12 +89,16 @@ export const Task = ({ navigation, boardId, task }) => {
             onPress={doneTask.bind(null, boardId, task.id, !task.done)}
           >
             {task.done ? (
-              <MaterialIcons name="check-box" size={24} color="black" />
+              <MaterialIcons
+                name="check-box"
+                size={24}
+                color={THEME.DARK_COLOR}
+              />
             ) : (
               <MaterialIcons
                 name="check-box-outline-blank"
                 size={24}
-                color="black"
+                color={THEME.DARK_COLOR}
               />
             )}
           </AppButton>
@@ -105,40 +111,39 @@ export const Task = ({ navigation, boardId, task }) => {
 
 const styles = StyleSheet.create({
   config: {
-    marginTop: 10,
     alignItems: "center",
-    borderWidth: 1,
-    borderColor: THEME.GREY_COLOR,
+    borderWidth: THEME.BORDER_WIDTH,
+    borderColor: THEME.DARK_COLOR,
     borderRadius: 5,
+    marginTop: 10,
   },
   configHeader: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
     paddingHorizontal: 10,
+    paddingVertical: 5,
   },
   configInput: {
     fontSize: THEME.FONT_SIZE,
-    width: "90%",
-    paddingVertical: 5,
-    borderBottomWidth: 1,
-    borderBottomColor: THEME.GREY_COLOR,
+    flex: 1,
+    borderBottomWidth: THEME.BORDER_WIDTH,
+    borderBottomColor: THEME.DARK_COLOR,
   },
   configButtons: {
-
+    marginVertical: 10,  
   },
   task: {
     flexDirection: "row",
     alignItems: "center",
-    padding: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
     borderWidth: 1,
-    borderColor: THEME.GREY_COLOR,
+    borderColor: THEME.DARK_COLOR,
     borderRadius: 5,
     marginTop: 10,
   },
   taskCheckBox: {},
   taskTitle: {
-    fontSize: 16,
+    fontSize: THEME.FONT_SIZE,
   },
 });

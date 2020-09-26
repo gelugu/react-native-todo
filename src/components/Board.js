@@ -50,14 +50,14 @@ export const Board = ({ board, openBoard }) => {
               />
               {newTitle !== board.title ? (
                 <AppButton onPress={renameBoard.bind(null, board.id, newTitle)}>
-                  <MaterialIcons name="done" size={30} color="black" />
+                  <MaterialIcons name="done" size={24} color={THEME.DARK_COLOR} />
                 </AppButton>
               ) : (
                 <AppButton onPress={setIsConfig.bind(null, false)}>
                   <MaterialIcons
                     name="arrow-back"
-                    size={30}
-                    color={THEME.MAIN_COLOR}
+                    size={24}
+                    color={THEME.DARK_COLOR}
                   />
                 </AppButton>
               )}
@@ -70,7 +70,6 @@ export const Board = ({ board, openBoard }) => {
                 <AppText style={styles.buttonText}>Open</AppText>
               </AppButton>
               <AppButton
-                size={50}
                 style={styles.button}
                 onPress={removeBoard.bind(null, board.id)}
               >
@@ -92,12 +91,11 @@ export const Board = ({ board, openBoard }) => {
           <View>
             <View style={styles.header}>
               <AppText style={styles.title}>{board.title}</AppText>
-
               <AppButton onPress={setIsConfig.bind(null, true)}>
                 <MaterialIcons
                   name="more-horiz"
-                  size={40}
-                  color={THEME.MAIN_COLOR}
+                  size={36}
+                  color={THEME.DARK_COLOR}
                 />
               </AppButton>
             </View>
@@ -110,17 +108,17 @@ export const Board = ({ board, openBoard }) => {
                     {item.done ? (
                       <MaterialIcons
                         name="radio-button-checked"
-                        size={12}
-                        color={THEME.MAIN_COLOR}
+                        size={16}
+                        color={THEME.DARK_COLOR}
                       />
                     ) : (
                       <MaterialIcons
                         name="radio-button-unchecked"
-                        size={12}
-                        color={THEME.MAIN_COLOR}
+                        size={16}
+                        color={THEME.DARK_COLOR}
                       />
                     )}
-                    <AppText style={{ marginLeft: 5 }}>{item.title}</AppText>
+                    <AppText style={styles.task}>{item.title}</AppText>
                   </View>
                 );
               }}
@@ -132,46 +130,47 @@ export const Board = ({ board, openBoard }) => {
   );
 };
 
-const size = Dimensions.get("window").width * 0.9;
 const styles = StyleSheet.create({
   board: {
-    width: size,
-    height: size,
+    width: THEME.BOARD_SIZE,
+    height: THEME.BOARD_SIZE,
     marginBottom: 10,
-    borderWidth: 1,
+    borderWidth: THEME.BORDER_WIDTH,
     borderRadius: THEME.BOARD_RADIUS,
-    borderColor: THEME.MAIN_COLOR,
+    borderColor: THEME.DARK_COLOR,
   },
   header: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingLeft: 15,
-    paddingRight: 11,
+    paddingHorizontal: 20,
     paddingTop: 10,
   },
   title: {
-    fontSize: 18,
+    fontSize: THEME.FONT_SIZE_BOLD,
   },
   list: {
-    marginLeft: 15,
+    marginLeft: 20,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
   },
+  task: {
+    fontSize: THEME.FONT_SIZE_SMALL,
+    marginLeft: 5
+  },
   input: {
     flexDirection: "row",
     alignItems: "center",
-    paddingLeft: 15,
+    paddingLeft: 20,
     paddingTop: 11,
+    paddingRight: 20,
   },
   newTitle: {
-    borderBottomWidth: 1,
-    borderBottomColor: THEME.MAIN_COLOR,
-    width: "80%",
-    paddingTop: 5,
-    marginRight: 10,
-    fontSize: 18,
+    borderBottomWidth: THEME.BORDER_WIDTH,
+    borderBottomColor: THEME.DARK_COLOR,
+    flex: 1,
+    fontSize: THEME.FONT_SIZE_BOLD,
   },
   box: {
     height: "100%",
@@ -182,6 +181,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   buttonText: {
-    fontSize: 18,
+    fontSize: THEME.FONT_SIZE_BOLD,
   },
 });

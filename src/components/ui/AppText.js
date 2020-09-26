@@ -6,6 +6,7 @@ export const AppText = (props) => <Text style={{...styles.default, ...props.styl
 
 const styles = StyleSheet.create({
   default: {
+    color: THEME.DARK_COLOR,
     fontSize: THEME.FONT_SIZE,
     fontFamily: 'rotota-regular'
   }

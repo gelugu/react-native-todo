@@ -67,11 +67,10 @@ export const ModalAddBoard = ({ visible, close }) => {
             />
             {boardTitle ? (
               <AppButton onPress={handleDone}>
-                <MaterialIcons name="done" size={30} color={THEME.MAIN_COLOR} />
+                <MaterialIcons name="done" size={24} color={THEME.DARK_COLOR} />
               </AppButton>
             ) : null}
           </View>
-
           <View style={styles.list}>
             <FlatList
               keyExtractor={(item) => item}
@@ -79,7 +78,7 @@ export const ModalAddBoard = ({ visible, close }) => {
               renderItem={({ item }) => {
                 return (
                   <View style={styles.taskRow}>
-                    <Entypo name="dot-single" size={24} color={THEME.MAIN_COLOR} />
+                    <Entypo name="dot-single" size={24} color={THEME.DARK_COLOR} />
                     <AppText>{item}</AppText>
                   </View>
                 );
@@ -87,7 +86,7 @@ export const ModalAddBoard = ({ visible, close }) => {
               ListFooterComponent={
                 <View style={styles.addTaskRow}>
                   <AppButton>
-                    <MaterialIcons name="add" size={24} color={THEME.MAIN_COLOR} />
+                    <MaterialIcons name="add" size={24} color={THEME.DARK_COLOR} />
                   </AppButton>
                   <TextInput
                     value={currentTitle}
@@ -100,7 +99,7 @@ export const ModalAddBoard = ({ visible, close }) => {
                   />
                   {currentTitle ? (
                     <AppButton onPress={handleAddTask}>
-                      <MaterialIcons name="done" size={24} color={THEME.MAIN_COLOR} />
+                      <MaterialIcons name="done" size={24} color={THEME.DARK_COLOR} />
                     </AppButton>
                   ) : null}
                 </View>
@@ -110,7 +109,7 @@ export const ModalAddBoard = ({ visible, close }) => {
         </View>
         <View style={styles.buttons}>
           <AppButton onPress={handlerClose}>
-            <MaterialIcons name="arrow-back" size={30} color={THEME.MAIN_COLOR} />
+            <MaterialIcons name="arrow-back" size={36} color={THEME.DARK_COLOR} />
           </AppButton>
         </View>
       </View>
@@ -121,45 +120,41 @@ export const ModalAddBoard = ({ visible, close }) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    marginTop: 15,
+    marginTop: 10,
   },
   block: {
-    alignItems: "center",
-    justifyContent: "flex-start",
     width: THEME.BOARD_SIZE,
     height: THEME.BOARD_SIZE,
-    marginTop: 10,
     borderWidth: THEME.BORDER_WIDTH,
-    borderColor: THEME.MAIN_COLOR,
-    borderRadius: 15,
+    borderColor: THEME.DARK_COLOR,
+    borderRadius: THEME.BOARD_RADIUS,
+    marginTop: 10,
   },
   header: {
     flexDirection: "row",
     alignItems: "center",
-    flex: 1,
+    paddingTop: 10,
+    paddingHorizontal: 20,
   },
   title: {
+    fontSize: THEME.FONT_SIZE,
     borderBottomWidth: THEME.BORDER_WIDTH,
-    borderBottomColor: THEME.MAIN_COLOR,
-    width: "80%",
+    borderBottomColor: THEME.DARK_COLOR,
+    flex: 1,
   },
   list: {
-    alignItems: "flex-start",
-    justifyContent: "center",
-    marginTop: 20,
-    width: "90%",
-    height: "80%",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
   },
   addTaskRow: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    width: "80%",
   },
   addTask: {
+    fontSize: THEME.FONT_SIZE_SMALL,
     borderBottomWidth: 1,
-    borderBottomColor: THEME.MAIN_COLOR,
-    width: "85%",
+    borderBottomColor: THEME.DARK_COLOR,
+    flex: 1,
   },
   taskRow: {
     flexDirection: "row",
@@ -167,10 +162,9 @@ const styles = StyleSheet.create({
   },
   buttons: {
     flexDirection: "row",
-    alignItems: "center",
     justifyContent: "flex-end",
     width: THEME.BOARD_SIZE,
-    paddingTop: 20,
+    paddingVertical: 20,
     paddingHorizontal: 30,
   },
 });

@@ -19,7 +19,7 @@ export const AddBoard = ({ open }) => {
   return (
     <Wrapper onPress={open}>
       <View style={styles.block}>
-        <MaterialIcons size={36} name="add" />
+        <MaterialIcons size={36} name="add" color={THEME.DARK_COLOR}/>
       </View>
     </Wrapper>
   );
@@ -29,10 +29,9 @@ const styles = StyleSheet.create({
   block: {
     alignItems: "center",
     justifyContent: "center",
-    height: Dimensions.get("window").width * 0.9,
-    width: Dimensions.get("window").width * 0.9,
-    marginTop: 10,
-    marginBottom: 10,
+    height: THEME.BOARD_SIZE,
+    width: THEME.BOARD_SIZE,
+    marginVertical: 10,
     borderWidth: 1,
     borderRadius: THEME.BOARD_RADIUS,
   },

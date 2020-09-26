@@ -4,6 +4,6 @@ import { THEME } from "../../themes";
 
 export const AppLoader = ({ style }) => (
   <View style={{ ...style }}>
-    <ActivityIndicator size="large" color={THEME.MAIN_COLOR} />
+    <ActivityIndicator size="large" color={THEME.DARK_COLOR} />
   </View>
 );

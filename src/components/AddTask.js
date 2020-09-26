@@ -5,6 +5,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 import { AppButton } from "./ui/AppButton";
 import { THEME } from "../themes";
+import { taskPlaceholders } from "../../assets/placeholders";
 
 // Form to push new task
 export const AddTask = ({ boardId, onSubmit }) => {
@@ -21,14 +22,14 @@ export const AddTask = ({ boardId, onSubmit }) => {
 
   return (
     <View style={styles.block}>
-    <AppButton style={styles.button} onPress={pressHandler}>
-      <MaterialIcons size={24} name="add" />
-    </AppButton>
+      <AppButton style={styles.button} onPress={pressHandler}>
+        <MaterialIcons size={24} name="add" color={THEME.DARK_COLOR} />
+      </AppButton>
       <TextInput
         style={styles.input}
         onChangeText={setValue}
         value={value}
-        placeholder="Input task..."
+        placeholder={taskPlaceholders()}
         autoCorret={false}
         autoCapitalize="none"
         clearButtonMode="always"
@@ -43,10 +44,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    width: "100%",
+    flex: 1,
   },
   input: {
-    width: "90%",
+    fontSize: THEME.FONT_SIZE,
+    color: THEME.DARK_COLOR,
+    flex: 1,
     borderBottomWidth: 1,
     borderBottomColor: THEME.GREY_COLOR,
   },
