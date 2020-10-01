@@ -1,4 +1,5 @@
 import {
+  SET_USER,
   ADD_BOARD,
   REMOVE_BOARD,
   RENAME_BOARD,
@@ -14,9 +15,10 @@ import {
 } from "./types";
 
 const handlers = {
+  [SET_USER]: (state, { user }) => ({ ...state, user }),
+
   [ADD_BOARD]: (state, { title, id }) => {
-    console.log("create board:", title, id)
-    return ({
+    return {
       ...state,
       boards: [
         ...state.boards,
@@ -25,7 +27,7 @@ const handlers = {
           title,
         },
       ],
-    })
+    };
   },
   [REMOVE_BOARD]: (state, { id }) => ({
     ...state,
@@ -44,42 +46,44 @@ const handlers = {
     ...state,
     boards: state.boards.map((board) => {
       if (board.id === boardId) {
-        if ('tasks' in board) {
-          console.log("yep")
+        if ("tasks" in board) {
+          console.log("yep");
           board.tasks = [
             ...board.tasks,
             {
-            title,
-            id: taskId,
-            done: false,
-            }
+              title,
+              id: taskId,
+              done: false,
+            },
           ];
         } else {
-          board.tasks = [{
-            title,
-            id: taskId,
-            done: false,
-            }];
+          board.tasks = [
+            {
+              title,
+              id: taskId,
+              done: false,
+            },
+          ];
         }
       }
-        
+
       return board;
     }),
   }),
   [REMOVE_TASK]: (state, { boardId, id }) => ({
     ...state,
-    boards: state.boards.map(board => {
-        if (boardId === board.id) {
-          board.tasks = board.tasks.filter((task) => task.id !== id);
-        }
-        return board;
-      }),
+    boards: state.boards.map((board) => {
+      if (boardId === board.id) {
+        board.tasks = board.tasks.filter((task) => task.id !== id);
+      }
+      return board;
+    }),
   }),
   [RENAME_TASK]: (state, { boardId, id, title }) => ({
     ...state,
     boards: state.boards.map((board) => {
       if (board.id === boardId) {
-        board.tasks.forEach(task => {
+        board.tasks.forEach((task) => {
           if (task.id === id) task.title = title;
         });
       }
@@ -90,7 +94,7 @@ const handlers = {
     ...state,
     boards: state.boards.map((board) => {
       if (board.id === boardId) {
-        board.tasks.forEach(task => {
+        board.tasks.forEach((task) => {
           if (task.id === id) task.done = done;
         });
       }

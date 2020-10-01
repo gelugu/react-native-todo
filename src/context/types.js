@@ -1,3 +1,4 @@
+export const SET_USER = "SET_USER"
 export const ADD_TASK = "ADD_TASK"
 export const REMOVE_TASK = "REMOVE_TASK"
 export const RENAME_TASK = "RENAME_TASK"

@@ -33,9 +33,7 @@ export const BoardsLayout = ({ navigation }) => {
   // fetchBoards - load boards from DB.
   // loading - state for showing loader component
   // error - state for showing error
-  const { boards, fetchBoards, loading, error } = useContext(boardContext);
-
-  const [user, setUser] = useState();
+  const { user, boards, fetchBoards, loading, error } = useContext(boardContext);
 
   // load boards from DB
   const loadBoards = useCallback(async () => await fetchBoards(), [
@@ -46,7 +44,8 @@ export const BoardsLayout = ({ navigation }) => {
   }, []);
 
   if (!user) {
-    return <AuthLayout setUser={setUser}/>
+    console.log("user is", user)
+    return <AuthLayout/>
   }
 
   if (loading) return <AppLoader style={styles.loader} />; // TODO: add custom animation

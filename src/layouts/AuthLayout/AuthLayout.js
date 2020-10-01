@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 
 import { AppText } from "../../ui/AppText";
@@ -7,32 +7,37 @@ import { AppButton } from "../../ui/AppButton";
 import { AntDesign } from "@expo/vector-icons";
 import { THEME } from "../../themes";
 
-import { FBlogin, FBregister, FBloginAnonymous, FBcurrentUser } from "../../firebase";
+import {
+  FBlogin,
+  FBregister,
+  FBloginAnonymous,
+} from "../../firebase";
 import { InputEmail } from "./components/InputEmail";
 import { InputPassword } from "./components/InputPassword";
+import { boardContext } from "../../context/boardContext";
 
-export const AuthLayout = ({ setUser }) => {
-  const [email, setEmail] = useState("");
+export const AuthLayout = () => {
+  const { setUser } = useContext(boardContext);
+
+  const [email, setEmail] = useState("kraev.mixail@gmail.com");
   const [password, setPassword] = useState("548246232Rvb");
 
   const [emailValid, setEmailValid] = useState(false);
   const [passwordValid, setPasswordValid] = useState(false);
 
   const [emailExist, setEmailExist] = useState(false);
-  
+
   const handlerSignIn = async () => {
-    const res = await FBlogin(email, password);
+    const user = await FBlogin(email, password);
 
-    console.log("res", res)
-
-    setUser(res)
+    setUser(user);
   };
 
   const handlerLoginGuest = async () => {
     const user = await FBloginAnonymous();
 
-    setUser(user)
-  }
+    setUser(user);
+  };
 
   const handlerSignUp = () => {
     if (!(emailValid || passwordValid)) return;
