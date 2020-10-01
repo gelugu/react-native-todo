@@ -9,7 +9,7 @@ import { AppButton } from "../../ui/AppButton";
 import { boardContext } from "../../context/boardContext";
 
 // task view and edit component
-export const TaskLayout = ({navigation}) => {
+export const TaskLayout = ({ navigation }) => {
   const { baordId, task } = navigation.state.params; // use getParam()
   const { removeTask, renameTask } = useContext(boardContext);
 
@@ -18,7 +18,7 @@ export const TaskLayout = ({navigation}) => {
 
   // task save method
   const saveHandler = async () => {
-    await renameTask(boardId, task.id, title)
+    await renameTask(boardId, task.id, title);
   };
 
   return (
@@ -92,5 +92,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     padding: 5,
     width: "100%",
-  }
+  },
 });

@@ -49,7 +49,11 @@ export const Board = ({ board, openBoard }) => {
               />
               {newTitle !== board.title ? (
                 <AppButton onPress={renameBoard.bind(null, board.id, newTitle)}>
-                  <MaterialIcons name="done" size={24} color={THEME.DARK_COLOR} />
+                  <MaterialIcons
+                    name="done"
+                    size={24}
+                    color={THEME.DARK_COLOR}
+                  />
                 </AppButton>
               ) : (
                 <AppButton onPress={setIsConfig.bind(null, false)}>
@@ -156,7 +160,7 @@ const styles = StyleSheet.create({
   },
   task: {
     fontSize: THEME.FONT_SIZE_SMALL,
-    marginLeft: 5
+    marginLeft: 5,
   },
   input: {
     flexDirection: "row",

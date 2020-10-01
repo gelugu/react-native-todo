@@ -1,4 +1,4 @@
-import React, { useReducer, useContext } from "react";
+import React, { useReducer } from "react";
 
 import { boardContext } from "./boardContext";
 import { boardReducer } from "./boardReducer";
@@ -28,7 +28,7 @@ export const BoardState = ({ children }) => {
   };
   const [state, dispatch] = useReducer(boardReducer, initialState);
 
-  const setUser = (user) => dispatch({type: SET_USER, user})
+  const setUser = (user) => dispatch({ type: SET_USER, user });
 
   const addBoard = async (boardTitle, tasks) => {
     clearError();
@@ -36,7 +36,7 @@ export const BoardState = ({ children }) => {
       const data = await Http.post(
         `https://rn-todo-45132.firebaseio.com/${state.user.uid}/boards.json`,
         {
-          title: boardTitle
+          title: boardTitle,
         }
       );
 
@@ -45,16 +45,15 @@ export const BoardState = ({ children }) => {
         { id: data.name }
       );
 
-      tasks.forEach(task => {
-        addTask(data.name, task)
-      })
+      tasks.forEach((task) => {
+        addTask(data.name, task);
+      });
 
       dispatch({
         type: ADD_BOARD,
         id: data.name,
         title: boardTitle,
       });
-      console.log("end dispatch")
     } catch (error) {
       showError(error);
     }
@@ -74,9 +73,12 @@ export const BoardState = ({ children }) => {
   };
   const renameBoard = async (id, title) => {
     try {
-      Http.patch(`https://rn-todo-45132.firebaseio.com/${state.user.uid}/boards/${id}.json`, {
-        title,
-      });
+      Http.patch(
+        `https://rn-todo-45132.firebaseio.com/${state.user.uid}/boards/${id}.json`,
+        {
+          title,
+        }
+      );
       dispatch({ type: RENAME_BOARD, id, title });
     } catch (error) {
       showError(`Error: ${error}`);
@@ -92,18 +94,18 @@ export const BoardState = ({ children }) => {
       );
       if (data !== null) {
         const boards = Object.values(data);
-        boards.map(board => {
-          if ('tasks' in board) {
-            board.tasks = Object.values(board.tasks)
+        boards.map((board) => {
+          if ("tasks" in board) {
+            board.tasks = Object.values(board.tasks);
           }
           return board;
-        })
+        });
         dispatch({ type: FETCH_BOARDS, boards });
       }
     } catch (error) {
       showError(`Error: ${error}`);
     } finally {
-      hideLoader(); 
+      hideLoader();
     }
   };
 
@@ -136,9 +138,12 @@ export const BoardState = ({ children }) => {
   };
   const renameTask = async (boardId, id, title) => {
     try {
-      Http.patch(`https://rn-todo-45132.firebaseio.com/${state.user.uid}/boards/${boardId}/tasks/${id}.json`, {
-        title,
-      });
+      Http.patch(
+        `https://rn-todo-45132.firebaseio.com/${state.user.uid}/boards/${boardId}/tasks/${id}.json`,
+        {
+          title,
+        }
+      );
       dispatch({ type: RENAME_TASK, boardId, id, title });
     } catch (error) {
       showError(`Error: ${error}`);
@@ -146,10 +151,12 @@ export const BoardState = ({ children }) => {
   };
   const doneTask = async (boardId, id, done) => {
     try {
-      console.log(done)
-      Http.patch(`https://rn-todo-45132.firebaseio.com/${state.user.uid}/boards/${boardId}/tasks/${id}.json`, {
-        done,
-      });
+      Http.patch(
+        `https://rn-todo-45132.firebaseio.com/${state.user.uid}/boards/${boardId}/tasks/${id}.json`,
+        {
+          done,
+        }
+      );
       dispatch({ type: DONE_TASK, boardId, id, done });
     } catch (error) {
       showError(`Error: ${error}`);
@@ -177,7 +184,7 @@ export const BoardState = ({ children }) => {
         addTask,
         removeTask,
         renameTask,
-        doneTask
+        doneTask,
       }}
     >
       {children}

@@ -1,6 +1,11 @@
 // react components
-import React, { useCallback, useContext, useEffect, useState } from "react";
-import { StyleSheet, View, FlatList, Dimensions, Button } from "react-native";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { StyleSheet, View, FlatList, Button } from "react-native";
 
 // app components
 import { Board } from "./components/Board";
@@ -33,7 +38,9 @@ export const BoardsLayout = ({ navigation }) => {
   // fetchBoards - load boards from DB.
   // loading - state for showing loader component
   // error - state for showing error
-  const { user, boards, fetchBoards, loading, error } = useContext(boardContext);
+  const { user, boards, fetchBoards, loading, error } = useContext(
+    boardContext
+  );
 
   // load boards from DB
   const loadBoards = useCallback(async () => await fetchBoards(), [
@@ -41,12 +48,9 @@ export const BoardsLayout = ({ navigation }) => {
   ]);
   useEffect(() => {
     loadBoards();
-  }, []);
+  }, [user]);
 
-  if (!user) {
-    console.log("user is", user)
-    return <AuthLayout/>
-  }
+  if (!user) return <AuthLayout />;
 
   if (loading) return <AppLoader style={styles.loader} />; // TODO: add custom animation
   if (error)

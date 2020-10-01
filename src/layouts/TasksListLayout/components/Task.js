@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     borderBottomColor: THEME.DARK_COLOR,
   },
   configButtons: {
-    marginVertical: 10,  
+    marginVertical: 10,
   },
   task: {
     flexDirection: "row",

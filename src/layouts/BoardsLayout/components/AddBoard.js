@@ -12,13 +12,12 @@ import { THEME } from "../../../themes";
 import { MaterialIcons } from "@expo/vector-icons";
 
 export const AddBoard = ({ open }) => {
-
   const Wrapper =
     Platform.OS === "android" ? TouchableNativeFeedback : TouchableOpacity;
   return (
     <Wrapper onPress={open}>
       <View style={styles.block}>
-        <MaterialIcons size={36} name="add" color={THEME.DARK_COLOR}/>
+        <MaterialIcons size={36} name="add" color={THEME.DARK_COLOR} />
       </View>
     </Wrapper>
   );

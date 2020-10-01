@@ -4,6 +4,7 @@ import { createStackNavigator } from "react-navigation-stack";
 import { BoardsLayout } from "../layouts/BoardsLayout/BoardsLayout";
 import { TaskLayout } from "../layouts/TaskLayout/TaskLayout";
 import { TaskListLayout } from "../layouts/TasksListLayout/TaskListLayout";
+import { THEME } from "../themes";
 
 const Navigator = createStackNavigator(
   {
@@ -13,6 +14,11 @@ const Navigator = createStackNavigator(
   },
   {
     initialRoutName: "Boards",
+    defaultNavigationOptions: {
+      cardStyle: {
+        backgroundColor: THEME.LIGHT_COLOR,
+      }
+    }
   }
 );
 

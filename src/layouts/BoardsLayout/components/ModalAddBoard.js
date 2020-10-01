@@ -1,11 +1,5 @@
 import React, { useContext, useState } from "react";
-import {
-  StyleSheet,
-  View,
-  Modal,
-  TextInput,
-  FlatList,
-} from "react-native";
+import { StyleSheet, View, Modal, TextInput, FlatList } from "react-native";
 
 import { AppButton } from "../../../ui/AppButton";
 import { AppText } from "../../../ui/AppText";
@@ -48,10 +42,7 @@ export const ModalAddBoard = ({ visible, close }) => {
   };
 
   return (
-    <Modal
-      animationType="slide"
-      visible={visible}
-    >
+    <Modal animationType="slide" visible={visible}>
       <View style={styles.container}>
         <View style={styles.block}>
           <View style={styles.header}>
@@ -78,7 +69,11 @@ export const ModalAddBoard = ({ visible, close }) => {
               renderItem={({ item }) => {
                 return (
                   <View style={styles.taskRow}>
-                    <Entypo name="dot-single" size={24} color={THEME.DARK_COLOR} />
+                    <Entypo
+                      name="dot-single"
+                      size={24}
+                      color={THEME.DARK_COLOR}
+                    />
                     <AppText>{item}</AppText>
                   </View>
                 );
@@ -86,7 +81,11 @@ export const ModalAddBoard = ({ visible, close }) => {
               ListFooterComponent={
                 <View style={styles.addTaskRow}>
                   <AppButton>
-                    <MaterialIcons name="add" size={24} color={THEME.DARK_COLOR} />
+                    <MaterialIcons
+                      name="add"
+                      size={24}
+                      color={THEME.DARK_COLOR}
+                    />
                   </AppButton>
                   <TextInput
                     value={currentTitle}
@@ -99,7 +98,11 @@ export const ModalAddBoard = ({ visible, close }) => {
                   />
                   {currentTitle ? (
                     <AppButton onPress={handleAddTask}>
-                      <MaterialIcons name="done" size={24} color={THEME.DARK_COLOR} />
+                      <MaterialIcons
+                        name="done"
+                        size={24}
+                        color={THEME.DARK_COLOR}
+                      />
                     </AppButton>
                   ) : null}
                 </View>
@@ -109,7 +112,11 @@ export const ModalAddBoard = ({ visible, close }) => {
         </View>
         <View style={styles.buttons}>
           <AppButton onPress={handlerClose}>
-            <MaterialIcons name="arrow-back" size={36} color={THEME.DARK_COLOR} />
+            <MaterialIcons
+              name="arrow-back"
+              size={36}
+              color={THEME.DARK_COLOR}
+            />
           </AppButton>
         </View>
       </View>

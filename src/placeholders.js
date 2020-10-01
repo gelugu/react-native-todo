@@ -1,5 +1,9 @@
 export const boardPlaceholders = () => {
-  const PH = ["Begin a project...", "This could be something great...", "Here could be Your board..."];
+  const PH = [
+    "Begin a project...",
+    "This could be something great...",
+    "Here could be Your board...",
+  ];
 
   return PH[Math.floor(Math.random() * PH.length)];
 };
@@ -9,4 +13,3 @@ export const taskPlaceholders = () => {
 
   return PH[Math.floor(Math.random() * PH.length)];
 };
-

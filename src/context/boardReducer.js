@@ -47,7 +47,6 @@ const handlers = {
     boards: state.boards.map((board) => {
       if (board.id === boardId) {
         if ("tasks" in board) {
-          console.log("yep");
           board.tasks = [
             ...board.tasks,
             {

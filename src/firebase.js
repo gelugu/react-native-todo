@@ -13,23 +13,34 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 
-export const FBcurrentUser = () => (firebase.auth().currentUser);
+export const isUserExist = async (email) => {
+  const res = await firebase
+    .auth()
+    .fetchSignInMethodsForEmail(email)
+    .catch((error) => {
+      console.error(error.code, error.message);
+    });
+  return res;
+};
+
+export const FBcurrentUser = () => firebase.auth().currentUser;
 
 export const FBlogin = async (email, password) => {
+  await firebase.auth().signInWithEmailAndPassword(email, password);
+
+  return firebase.auth().currentUser;
+};
+
+export const FBregister = async (email, password) => {
   await firebase
     .auth()
-    .signInWithEmailAndPassword(email, password).catch(async (error) => {
-      if (error.code === "auth/invalid-email") {
-        console.log("not registr");
-        await firebase.auth().createUserWithEmailAndPassword(email, password);
-        await firebase.auth().currentUser.updateProfile({
-          displayName: email.split('@')[0],
-        });
-        await firebase.auth().signInWithEmailAndPassword(email, password);
-      };
+    .createUserWithEmailAndPassword(email, password)
+    .catch(async (error) => {
+      console.error(error.code, "\n", error.message);
     });
-  
-    return firebase.auth().currentUser;
+  await firebase.auth().currentUser.updateProfile({
+    displayName: email.split("@")[0],
+  });
 };
 
 export const FBsignOut = () => {
@@ -37,9 +48,12 @@ export const FBsignOut = () => {
 };
 
 export const FBloginAnonymous = async () => {
-  await firebase.auth().signInAnonymously().catch((error) => {
-    console.log(error.code, error.message);
-  });
-  
+  await firebase
+    .auth()
+    .signInAnonymously()
+    .catch((error) => {
+      console.error(error.code, error.message);
+    });
+
   return firebase.auth().currentUser;
-}
+};

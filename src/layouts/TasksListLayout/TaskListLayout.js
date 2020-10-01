@@ -1,9 +1,5 @@
 import React, { useContext } from "react";
-import {
-  StyleSheet,
-  View,
-  FlatList,
-} from "react-native";
+import { StyleSheet, View, FlatList } from "react-native";
 
 import { AddTask } from "./components/AddTask";
 import { Task } from "./components/Task";
@@ -24,7 +20,9 @@ export const TaskListLayout = ({ navigation }) => {
         keyExtractor={(item) => item.id.toString()}
         data={board.tasks}
         renderItem={({ item }) => {
-          return <Task boardId={board.id} task={item} navigation={navigation}/>;
+          return (
+            <Task boardId={board.id} task={item} navigation={navigation} />
+          );
         }}
         ListEmptyComponent={
           <View style={styles.imageWrap}>
