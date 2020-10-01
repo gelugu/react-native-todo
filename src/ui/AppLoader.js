@@ -1,6 +1,6 @@
 import React from "react";
 import { View, ActivityIndicator } from "react-native";
-import { THEME } from "../../themes";
+import { THEME } from "../themes";
 
 export const AppLoader = ({ style }) => (
   <View style={{ ...style }}>

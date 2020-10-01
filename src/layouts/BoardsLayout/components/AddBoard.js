@@ -2,13 +2,12 @@ import React from "react";
 import {
   View,
   StyleSheet,
-  Dimensions,
   TouchableNativeFeedback,
   TouchableOpacity,
   Platform,
 } from "react-native";
 
-import { THEME } from "../themes";
+import { THEME } from "../../../themes";
 
 import { MaterialIcons } from "@expo/vector-icons";
 

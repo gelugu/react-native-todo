@@ -6,12 +6,12 @@ import {
   TouchableNativeFeedback,
   TextInput,
 } from "react-native";
-import { THEME } from "../themes";
+import { THEME } from "../../../themes";
 
-import { AppText } from "./ui/AppText";
-import { AppButton } from "./ui/AppButton";
+import { AppText } from "../../../ui/AppText";
+import { AppButton } from "../../../ui/AppButton";
 import { MaterialIcons } from "@expo/vector-icons";
-import { boardContext } from "../context/board/boardContext";
+import { boardContext } from "../../../context/boardContext";
 
 // Task element
 //   task - current task

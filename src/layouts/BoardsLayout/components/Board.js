@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import {
   StyleSheet,
   View,
-  Dimensions,
   FlatList,
   Platform,
   TouchableNativeFeedback,
@@ -10,12 +9,12 @@ import {
   TextInput,
 } from "react-native";
 
-import { AppText } from "./ui/AppText";
-import { AppButton } from "./ui/AppButton";
+import { AppText } from "../../../ui/AppText";
+import { AppButton } from "../../../ui/AppButton";
 
-import { boardContext } from "../context/board/boardContext";
+import { boardContext } from "../../../context/boardContext";
 
-import { THEME } from "../themes";
+import { THEME } from "../../../themes";
 
 import { MaterialIcons } from "@expo/vector-icons";
 

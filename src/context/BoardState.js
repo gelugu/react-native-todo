@@ -15,11 +15,12 @@ import {
   HIDE_LOADER,
   SHOW_ERROR,
   CLEAR_ERROR,
-} from "../types";
-import { Http } from "../../http";
+} from "./types";
+import { Http } from "./http";
 
 export const BoardState = ({ children }) => {
   const initialState = {
+    user: null,
     boards: [],
     loading: false,
     error: null,

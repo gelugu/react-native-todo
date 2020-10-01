@@ -3,16 +3,14 @@ import {
   StyleSheet,
   View,
   FlatList,
-  Dimensions,
 } from "react-native";
 
-import { AddTask } from "../components/AddTask";
-import { Task } from "../components/Task";
-import { THEME } from "../themes";
-import { AppText } from "../components/ui/AppText";
+import { AddTask } from "./components/AddTask";
+import { Task } from "./components/Task";
+import { THEME } from "../../themes";
+import { AppText } from "../../ui/AppText";
 import { MaterialIcons } from "@expo/vector-icons";
-import { AppButton } from "../components/ui/AppButton";
-import { boardContext } from "../context/board/boardContext";
+import { boardContext } from "../../context/boardContext";
 
 //  task list element
 export const TaskListLayout = ({ navigation }) => {

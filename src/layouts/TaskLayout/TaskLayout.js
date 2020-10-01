@@ -1,12 +1,12 @@
 import React, { useState, useContext } from "react";
 import { StyleSheet, View, TextInput, Dimensions } from "react-native";
 
-import { THEME } from "../themes";
+import { THEME } from "../../themes";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 
-import { AppButton } from "../components/ui/AppButton";
+import { AppButton } from "../../ui/AppButton";
 
-import { boardContext } from "../context/board/boardContext";
+import { boardContext } from "../../context/boardContext";
 
 // task view and edit component
 export const TaskLayout = ({navigation}) => {

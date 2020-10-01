@@ -3,9 +3,9 @@ import { View, StyleSheet, TextInput, Keyboard } from "react-native";
 
 import { MaterialIcons } from "@expo/vector-icons";
 
-import { AppButton } from "./ui/AppButton";
-import { THEME } from "../themes";
-import { taskPlaceholders } from "../../assets/placeholders";
+import { AppButton } from "../../../ui/AppButton";
+import { THEME } from "../../../themes";
+import { taskPlaceholders } from "../../../placeholders";
 
 // Form to push new task
 export const AddTask = ({ boardId, onSubmit }) => {

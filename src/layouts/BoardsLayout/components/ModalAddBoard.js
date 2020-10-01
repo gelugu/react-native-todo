@@ -7,15 +7,15 @@ import {
   FlatList,
 } from "react-native";
 
+import { AppButton } from "../../../ui/AppButton";
+import { AppText } from "../../../ui/AppText";
+import { boardContext } from "../../../context/boardContext";
+import { taskPlaceholders, boardPlaceholders } from "../../../placeholders";
+
+import { THEME } from "../../../themes";
+
 import { MaterialIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
-
-import { AppButton } from "./ui/AppButton";
-import { AppText } from "./ui/AppText";
-import { boardContext } from "../context/board/boardContext";
-import { taskPlaceholders, boardPlaceholders } from "../../assets/placeholders";
-
-import { THEME } from "../themes";
 
 export const ModalAddBoard = ({ visible, close }) => {
   const { addBoard } = useContext(boardContext);

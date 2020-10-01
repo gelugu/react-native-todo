@@ -3,25 +3,28 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 import { StyleSheet, View, FlatList, Dimensions, Button } from "react-native";
 
 // app components
-import { Board } from "../components/Board";
-import { AddBoard } from "../components/AddBoard";
-import { ModalAddBoard } from "../components/ModalAddBoard";
-import { AppButton } from "../components/ui/AppButton";
-import { AppLoader } from "../components/ui/AppLoader";
-import { AppText } from "../components/ui/AppText";
+import { Board } from "./components/Board";
+import { AddBoard } from "./components/AddBoard";
+import { ModalAddBoard } from "./components/ModalAddBoard";
+import { AppButton } from "../../ui/AppButton";
+import { AppLoader } from "../../ui/AppLoader";
+import { AppText } from "../../ui/AppText";
+
+// app layouts
+import { AuthLayout } from "../AuthLayout/AuthLayout";
 
 // context
-import { boardContext } from "../context/board/boardContext";
+import { boardContext } from "../../context/boardContext";
 
 // style themes
-import { THEME } from "../themes";
+import { THEME } from "../../themes";
 
 // icons
 import { MaterialIcons } from "@expo/vector-icons";
 
 // Boards list layout (screen).
 // Main app scrren, contain all boards.
-export const BoardLayout = ({ navigation }) => {
+export const BoardsLayout = ({ navigation }) => {
   // state for visibility addBoard modal component
   const [showAddBoard, setShowAddBoard] = useState(false);
 
@@ -32,6 +35,8 @@ export const BoardLayout = ({ navigation }) => {
   // error - state for showing error
   const { boards, fetchBoards, loading, error } = useContext(boardContext);
 
+  const [user, setUser] = useState();
+
   // load boards from DB
   const loadBoards = useCallback(async () => await fetchBoards(), [
     fetchBoards,
@@ -39,6 +44,10 @@ export const BoardLayout = ({ navigation }) => {
   useEffect(() => {
     loadBoards();
   }, []);
+
+  if (!user) {
+    return <AuthLayout setUser={setUser}/>
+  }
 
   if (loading) return <AppLoader style={styles.loader} />; // TODO: add custom animation
   if (error)
@@ -94,7 +103,7 @@ export const BoardLayout = ({ navigation }) => {
 };
 
 // header options
-BoardLayout.navigationOptions = {
+BoardsLayout.navigationOptions = {
   headerShown: false,
 };
 

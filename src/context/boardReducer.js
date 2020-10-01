@@ -11,7 +11,7 @@ import {
   HIDE_LOADER,
   SHOW_ERROR,
   CLEAR_ERROR,
-} from "../types";
+} from "./types";
 
 const handlers = {
   [ADD_BOARD]: (state, { title, id }) => {
