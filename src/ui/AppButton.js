@@ -1,7 +1,6 @@
 import React from "react";
 import {
   View,
-  StyleSheet,
   TouchableOpacity,
   TouchableNativeFeedback,
   Platform,
@@ -12,7 +11,16 @@ export const AppButton = ({ children, onPress, style }) => {
     Platform.OS === "android" ? TouchableNativeFeedback : TouchableOpacity;
 
   return (
-    <Wrapper onPress={onPress}>
+    <Wrapper
+      onPress={onPress}
+      background={
+        Platform.OS === "android"
+          ? Platform.Version >= 21
+            ? TouchableNativeFeedback.Ripple("rgba(0,0,0,.2)", true)
+            : TouchableNativeFeedback.SelectableBackground()
+          : null
+      }
+    >
       <View style={style}>
         <View>{children}</View>
       </View>
