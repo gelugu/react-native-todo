@@ -12,7 +12,7 @@ import {
 import { AppText } from "../../../ui/AppText";
 import { AppButton } from "../../../ui/AppButton";
 
-import { boardContext } from "../../../context/boardContext";
+import { boardContext } from "../../../context/contexts";
 
 import { THEME } from "../../../themes";
 
@@ -37,8 +37,8 @@ export const Board = ({ board, openBoard }) => {
       }}
       onLongPress={togleIsConfig}
     >
-      <View style={styles.board}>
-        {isConfig ? (
+      {isConfig ? (
+        <View style={styles.board}>
           <View style={styles.container}>
             <View style={styles.input}>
               <TextInput
@@ -90,45 +90,46 @@ export const Board = ({ board, openBoard }) => {
               </AppButton>
             </View>
           </View>
-        ) : (
-          <View>
-            <View style={styles.header}>
-              <AppText style={styles.title}>{board.title}</AppText>
-              <AppButton onPress={setIsConfig.bind(null, true)}>
-                <MaterialIcons
-                  name="more-horiz"
-                  size={36}
-                  color={THEME.DARK_COLOR}
-                />
-              </AppButton>
-            </View>
-            <FlatList
-              keyExtractor={(item) => item.id.toString()}
-              data={board.tasks}
-              renderItem={({ item }) => {
-                return (
-                  <View style={styles.list}>
-                    {item.done ? (
-                      <MaterialIcons
-                        name="radio-button-checked"
-                        size={16}
-                        color={THEME.DARK_COLOR}
-                      />
-                    ) : (
-                      <MaterialIcons
-                        name="radio-button-unchecked"
-                        size={16}
-                        color={THEME.DARK_COLOR}
-                      />
-                    )}
-                    <AppText style={styles.task}>{item.title}</AppText>
-                  </View>
-                );
-              }}
-            />
+        </View>
+      ) : (
+        <View style={styles.board}>
+          <View style={styles.header}>
+            <AppText style={styles.title}>{board.title}</AppText>
+            <AppButton onPress={setIsConfig.bind(null, true)}>
+              <MaterialIcons
+                name="more-horiz"
+                size={36}
+                color={THEME.DARK_COLOR}
+              />
+            </AppButton>
           </View>
-        )}
-      </View>
+          <FlatList
+            style={styles.list}
+            keyExtractor={(item) => item.id.toString()}
+            data={board.tasks}
+            renderItem={({ item }) => {
+              return (
+                <View style={styles.task}>
+                  {item.done ? (
+                    <MaterialIcons
+                      name="radio-button-checked"
+                      size={16}
+                      color={THEME.DARK_COLOR}
+                    />
+                  ) : (
+                    <MaterialIcons
+                      name="radio-button-unchecked"
+                      size={16}
+                      color={THEME.DARK_COLOR}
+                    />
+                  )}
+                  <AppText style={styles.taskTitle}>{item.title}</AppText>
+                </View>
+              );
+            }}
+          />
+        </View>
+      )}
     </Wrapper>
   );
 };
@@ -137,10 +138,12 @@ const styles = StyleSheet.create({
   board: {
     width: THEME.BOARD_SIZE,
     height: THEME.BOARD_SIZE,
-    marginBottom: 10,
     borderWidth: THEME.BORDER_WIDTH,
+    borderColor: "transparent",
     borderRadius: THEME.BOARD_RADIUS,
-    borderColor: THEME.DARK_COLOR,
+    marginBottom: 10,
+
+    elevation: 1.5,
   },
   header: {
     flexDirection: "row",
@@ -153,12 +156,16 @@ const styles = StyleSheet.create({
     fontSize: THEME.FONT_SIZE_BOLD,
   },
   list: {
-    marginLeft: 20,
+    flex: 1,
+    marginBottom: 20,
+    paddingHorizontal: 20,
+  },
+  task: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
   },
-  task: {
+  taskTitle: {
     fontSize: THEME.FONT_SIZE_SMALL,
     marginLeft: 5,
   },

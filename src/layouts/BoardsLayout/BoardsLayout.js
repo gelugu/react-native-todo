@@ -1,56 +1,49 @@
 // react components
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { StyleSheet, View, FlatList, Button } from "react-native";
 
 // app components
 import { Board } from "./components/Board";
-import { AddBoard } from "./components/AddBoard";
-import { ModalAddBoard } from "./components/ModalAddBoard";
 import { AppButton } from "../../ui/AppButton";
 import { AppLoader } from "../../ui/AppLoader";
 import { AppText } from "../../ui/AppText";
 
-// app layouts
-import { AuthLayout } from "../AuthLayout/AuthLayout";
-
 // context
-import { boardContext } from "../../context/boardContext";
+import { appContext, userContext, boardContext } from "../../context/contexts";
 
 // style themes
 import { THEME } from "../../themes";
 
 // icons
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
 // Boards list layout (screen).
 // Main app scrren, contain all boards.
 export const BoardsLayout = ({ navigation }) => {
-  // state for visibility addBoard modal component
-  const [showAddBoard, setShowAddBoard] = useState(false);
-
   // boards context.
   // boards - boards array.
   // fetchBoards - load boards from DB.
   // loading - state for showing loader component
   // error - state for showing error
-  const { user, boards, fetchBoards, loading, error } = useContext(
-    boardContext
-  );
+  const { user, signOut, checkAuth } = useContext(userContext);
+  const { loading, error } = useContext(appContext);
+  const { boards, fetchBoards } = useContext(boardContext);
 
   // load boards from DB
   const loadBoards = useCallback(async () => await fetchBoards(), [
     fetchBoards,
   ]);
-  useEffect(() => {
-    loadBoards();
-  }, [user]);
 
-  if (!user) return <AuthLayout />;
+  useEffect(() => {
+    checkAuth();
+  }, []);
+  useEffect(() => {
+    if (!user) {
+      navigation.navigate("Auth");
+    } else {
+      loadBoards();
+    }
+  }, [user]);
 
   if (loading) return <AppLoader style={styles.loader} />; // TODO: add custom animation
   if (error)
@@ -84,23 +77,23 @@ export const BoardsLayout = ({ navigation }) => {
         ListFooterComponent={
           // only show if less then 2 boards
           boards.length < 2 ? (
-            <AddBoard open={setShowAddBoard.bind(null, true)} />
+            <AppButton onPress={navigation.navigate.bind(null, "AddBoard")}>
+              <View style={styles.block}>
+                <MaterialIcons size={36} name="add" color={THEME.DARK_COLOR} />
+              </View>
+            </AppButton>
           ) : null
         }
       />
       {/* when more then 2 boards show small button */}
       {boards.length >= 2 ? (
         <View style={styles.addButton}>
-          <AppButton onPress={setShowAddBoard.bind(null, true)}>
-            <MaterialIcons name="add-box" size={50} color="black" />
+          <AppButton onPress={navigation.navigate.bind(null, "AddBoard")}>
+            <MaterialIcons name="add-box" size={50} color={THEME.DARK_COLOR} />
           </AppButton>
         </View>
       ) : null}
       {/* modal component to add new board */}
-      <ModalAddBoard
-        visible={showAddBoard}
-        close={setShowAddBoard.bind(null, false)}
-      />
     </View>
   );
 };
@@ -108,11 +101,37 @@ export const BoardsLayout = ({ navigation }) => {
 // header options
 BoardsLayout.navigationOptions = {
   headerShown: false,
+  headerTitleAlign: "center",
+  headerStyle: {
+    elevation: 0,
+    backgroundColor: THEME.LIGHT_COLOR,
+  },
+  headerTitleStyle: {
+    color: THEME.TEXT_COLOR,
+    fontSize: THEME.FONT_SIZE,
+    fontFamily: "rotota-bold",
+  },
+  headerRight: () => (
+    <AppButton
+      onPress={() => {
+        FBsignOut();
+      }}
+    >
+      <MaterialCommunityIcons
+        name="logout-variant"
+        size={30}
+        color={THEME.DARK_COLOR}
+      />
+    </AppButton>
+  ),
+  headerRightContainerStyle: {
+    paddingRight: 10,
+  },
 };
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 10 + THEME.HEADER_HEIGHT,
+    ...THEME.HEADER,
     flex: 1,
     alignItems: "center",
   },
@@ -130,6 +149,15 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     paddingHorizontal: 50,
     alignContent: "center",
+  },
+  block: {
+    alignItems: "center",
+    justifyContent: "center",
+    height: THEME.BOARD_SIZE,
+    width: THEME.BOARD_SIZE,
+    marginVertical: 10,
+    borderWidth: 1,
+    borderRadius: THEME.BOARD_RADIUS,
   },
   addButton: {
     position: "absolute",

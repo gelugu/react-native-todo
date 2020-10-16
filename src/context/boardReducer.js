@@ -1,5 +1,4 @@
 import {
-  SET_USER,
   ADD_BOARD,
   REMOVE_BOARD,
   RENAME_BOARD,
@@ -8,15 +7,9 @@ import {
   REMOVE_TASK,
   RENAME_TASK,
   DONE_TASK,
-  SHOW_LOADER,
-  HIDE_LOADER,
-  SHOW_ERROR,
-  CLEAR_ERROR,
 } from "./types";
 
 const handlers = {
-  [SET_USER]: (state, { user }) => ({ ...state, user }),
-
   [ADD_BOARD]: (state, { title, id }) => {
     return {
       ...state,
@@ -100,12 +93,6 @@ const handlers = {
       return board;
     }),
   }),
-
-  [SHOW_LOADER]: (state) => ({ ...state, loading: true }),
-  [HIDE_LOADER]: (state) => ({ ...state, loading: false }),
-
-  [SHOW_ERROR]: (state, { error }) => ({ ...state, error }),
-  [CLEAR_ERROR]: (state) => ({ ...state, error: null }),
 
   DEFAULT: (state) => state,
 };

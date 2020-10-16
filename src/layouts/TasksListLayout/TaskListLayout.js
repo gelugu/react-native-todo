@@ -6,7 +6,7 @@ import { Task } from "./components/Task";
 import { THEME } from "../../themes";
 import { AppText } from "../../ui/AppText";
 import { MaterialIcons } from "@expo/vector-icons";
-import { boardContext } from "../../context/boardContext";
+import { boardContext } from "../../context/contexts";
 
 //  task list element
 export const TaskListLayout = ({ navigation }) => {
@@ -16,7 +16,7 @@ export const TaskListLayout = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <FlatList
-        style={styles.list}
+        removeClippedSubviews={false}
         keyExtractor={(item) => item.id.toString()}
         data={board.tasks}
         renderItem={({ item }) => {
@@ -24,18 +24,16 @@ export const TaskListLayout = ({ navigation }) => {
             <Task boardId={board.id} task={item} navigation={navigation} />
           );
         }}
+        contentContainerStyle={styles.list}
         ListEmptyComponent={
           <View style={styles.imageWrap}>
             <MaterialIcons name="no-sim" size={64} color={THEME.DARK_COLOR} />
             <AppText>Still no tasks here...</AppText>
           </View>
         }
-        ListFooterComponent={
-          <View style={styles.addTask}>
-            <AddTask onSubmit={addTask} boardId={board.id} />
-          </View>
-        }
       />
+
+      <AddTask onSubmit={addTask} boardId={board.id} />
     </View>
   );
 };
@@ -59,20 +57,13 @@ TaskListLayout.navigationOptions = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: 10,
   },
   list: {
-    flex: 1,
-  },
-  addTask: {
-    flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderWidth: THEME.BORDER_WIDTH,
-    borderColor: THEME.DARK_COLOR,
-    borderRadius: 5,
-    marginTop: 10,
   },
+  imageWrap: {
+    alignItems: "center",
+  }
 });

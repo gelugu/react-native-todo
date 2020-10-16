@@ -6,7 +6,7 @@ import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { AppButton } from "../../ui/AppButton";
 
-import { boardContext } from "../../context/boardContext";
+import { boardContext } from "../../context/contexts";
 
 // task view and edit component
 export const TaskLayout = ({ navigation }) => {

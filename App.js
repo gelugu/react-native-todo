@@ -2,7 +2,10 @@ import React from "react";
 import { useFonts } from "expo-font";
 import { AppLoading } from "expo";
 
+import { AppState } from "./src/context/AppState";
+import { UserState } from "./src/context/UserState";
 import { BoardState } from "./src/context/BoardState";
+
 import { AppNavigator } from "./src/navigation/AppNavigation";
 
 //  main app element
@@ -16,8 +19,12 @@ export default function App() {
   if (!fontsLoaded) return <AppLoading />;
 
   return (
-    <BoardState>
-      <AppNavigator />
-    </BoardState>
+    <AppState>
+      <UserState>
+        <BoardState>
+          <AppNavigator />
+        </BoardState>
+      </UserState>
+    </AppState>
   );
 }

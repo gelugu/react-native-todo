@@ -8,7 +8,7 @@ export const AppTextBold = (props) => (
 
 const styles = StyleSheet.create({
   default: {
-    color: THEME.DARK_COLOR,
+    color: THEME.TEXT_COLOR,
     fontSize: THEME.FONT_SIZE,
     fontFamily: "rotota-bold",
   },

@@ -12,10 +12,10 @@ export const AppButton = ({ children, onPress, style }) => {
     Platform.OS === "android" ? TouchableNativeFeedback : TouchableOpacity;
 
   return (
-    <View style={style}>
-      <Wrapper onPress={onPress}>
+    <Wrapper onPress={onPress}>
+      <View style={style}>
         <View>{children}</View>
-      </Wrapper>
-    </View>
+      </View>
+    </Wrapper>
   );
 };

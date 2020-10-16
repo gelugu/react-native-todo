@@ -35,16 +35,24 @@ export const AddTask = ({ boardId, onSubmit }) => {
         clearButtonMode="always"
         maxLength={30} // set as SETTING.MAX_TITLE_LENGTH
       />
+      {value ? <AppButton style={styles.button} onPress={pressHandler}>
+        <MaterialIcons size={24} name="done" color={THEME.DARK_COLOR} />
+      </AppButton> : null}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   block: {
+    width: THEME.TASK_WIDTH,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    flex: 1,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderWidth: THEME.BORDER_WIDTH,
+    borderColor: THEME.DARK_COLOR,
+    borderRadius: THEME.TASK_RADIUS,
+    marginVertical: 10,
   },
   input: {
     fontSize: THEME.FONT_SIZE,

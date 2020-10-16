@@ -6,17 +6,28 @@ export const THEME = {
   LIGHT_COLOR: "#edf2f4",
   RED_COLOR: "#d90429",
   LIGHT_RED_COLOR: "#ef233c",
-  TEXT_COLOR: "#d7d7d7",
+  TEXT_COLOR: "#2b2d42",
 
   FONT_SIZE: 16,
   FONT_SIZE_SMALL: 14,
   FONT_SIZE_BOLD: 18,
 
-  HEADER_HEIGHT:
-    Dimensions.get("screen").height - Dimensions.get("window").height,
+  HEADER: {
+    paddingTop: Dimensions.get("screen").height - Dimensions.get("window").height + 10,
 
-  BORDER_WIDTH: 1,
-  BORDER_BOLD_WIDTH: 3,
+  },
+
+  HEADER_HEIGHT: Dimensions.get("screen").height - Dimensions.get("window").height + 10,
+
+  CONTAINER_CENTER: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+    
+
+  BORDER_WIDTH: 0.3,
+  BORDER_BOLD_WIDTH: 1,
 
   BOARD_RADIUS: 20,
   BOARD_SIZE: Dimensions.get("window").width * 0.9,
@@ -26,4 +37,6 @@ export const THEME = {
   TASK_HEIGHT: 40,
 
   TASK_HEIGHT: 10,
+
+  ANIMATION_SPEED: 300,
 };

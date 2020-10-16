@@ -11,7 +11,7 @@ import { THEME } from "../../../themes";
 import { AppText } from "../../../ui/AppText";
 import { AppButton } from "../../../ui/AppButton";
 import { MaterialIcons } from "@expo/vector-icons";
-import { boardContext } from "../../../context/boardContext";
+import { boardContext } from "../../../context/contexts";
 
 // Task element
 //   task - current task
@@ -50,11 +50,7 @@ export const Task = ({ navigation, boardId, task }) => {
     Platform.OS === "android" ? TouchableNativeFeedback : TouchableOpacity;
 
   return (
-    <Wrapper
-      style={styles.taskList}
-      onLongPress={longPressHandler}
-      onPress={pressHandler}
-    >
+    <Wrapper onLongPress={longPressHandler} onPress={pressHandler}>
       {isConfig ? (
         <View style={styles.config}>
           <View style={styles.configHeader}>
@@ -111,17 +107,17 @@ export const Task = ({ navigation, boardId, task }) => {
 
 const styles = StyleSheet.create({
   config: {
+    width: THEME.TASK_WIDTH,
     alignItems: "center",
     borderWidth: THEME.BORDER_WIDTH,
     borderColor: THEME.DARK_COLOR,
-    borderRadius: 5,
+    borderRadius: THEME.TASK_RADIUS,
     marginTop: 10,
   },
   configHeader: {
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 10,
-    paddingVertical: 5,
   },
   configInput: {
     fontSize: THEME.FONT_SIZE,
@@ -130,16 +126,17 @@ const styles = StyleSheet.create({
     borderBottomColor: THEME.DARK_COLOR,
   },
   configButtons: {
-    marginVertical: 10,
+    marginVertical: 15,
   },
   task: {
+    width: THEME.TASK_WIDTH,
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 10,
     paddingVertical: 5,
-    borderWidth: 1,
+    borderWidth: THEME.BORDER_WIDTH,
     borderColor: THEME.DARK_COLOR,
-    borderRadius: 5,
+    borderRadius: THEME.TASK_RADIUS,
     marginTop: 10,
   },
   taskCheckBox: {},

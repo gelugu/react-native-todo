@@ -16,11 +16,6 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "android": {
-      "package": "com.gelugudev.RN_gelugu_todo",
-      "versionCode": 1,
-      "permissions": []
-    },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.gelugudev.Rn-gelugu-todo",

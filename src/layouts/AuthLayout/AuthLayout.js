@@ -1,23 +1,26 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 
-import { AppText } from "../../ui/AppText";
 import { AppTextBold } from "../../ui/AppTextBold";
 import { AppButton } from "../../ui/AppButton";
+import { Fade } from "../../ui/animations/Fade";
+import { Spin } from "../../ui/animations/Spin";
 
 import { AntDesign } from "@expo/vector-icons";
 import { THEME } from "../../themes";
 
-import {
-  FBlogin,
-  FBregister,
-  FBloginAnonymous,
-  isUserExist,
-} from "../../firebase";
-import { boardContext } from "../../context/boardContext";
+import { appContext, userContext } from "../../context/contexts";
+import { AppLoader } from "../../ui/AppLoader";
 
-export const AuthLayout = () => {
-  const { setUser } = useContext(boardContext);
+export const AuthLayout = ({ navigation }) => {
+  const { loading } = useContext(appContext);
+  const {
+    user,
+    signIn,
+    signUp,
+    logInAnonymous,
+    isUserExist,
+  } = useContext(userContext);
 
   const [email, setEmail] = useState("black.kitty@gmail.com");
   const [password, setPassword] = useState("1234567890");
@@ -34,6 +37,10 @@ export const AuthLayout = () => {
   const [passwordConfirmBorder, setPasswordConfirmBorder] = useState(
     THEME.DARK_COLOR
   );
+
+  useEffect(() => {
+    if (user) navigation.navigate("Boards");
+  }, [user]);
 
   useEffect(() => {
     const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -64,51 +71,59 @@ export const AuthLayout = () => {
       setPasswordEquile(true);
       setPasswordConfirmBorder(THEME.DARK_COLOR);
     }
-  }, [passwordConfirm]);
+  }, [password, passwordConfirm]);
 
-  const handlerOnChange = async (value) => {
+  const handlerOnChange = (value) => {
     setEmail(value.trim().toLowerCase());
   };
 
   const handlerSignIn = async () => {
+    if (!(emailValid && passwordValid)) return;
+
     const res = await isUserExist(email);
     if (res.length === 0) {
       setEmailExist(false);
       return;
-    } else setEmailExist(true);
+    }
 
-    const user = await FBlogin(email, password);
-
-    setUser(user);
+    signIn(email, password);
   };
 
   const handlerLoginGuest = async () => {
-    const user = await FBloginAnonymous();
-
-    setUser(user);
+    logInAnonymous();
   };
 
   const handlerSignUp = async () => {
-    try {
-      await FBregister(email, password);
-      handlerSignIn(email, password);
-    } catch (error) {
-      console.error(error);
-    }
+    if (!(emailValid && passwordValid && passwordEquile)) return;
+
+    const res = await isUserExist(email);
+    if (res.length !== 0) {
+      setEmailExist(true);
+      signIn(email, password);
+    } else await signUp(email, password);
   };
+
+  if (loading)
+    return (
+      <View style={styles.container}>
+        <AppLoader />
+      </View>
+    );
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        {emailExist ? null : (
-          <AppButton
-            onPress={setEmailExist.bind(null, true)}
-            style={styles.buttonBack}
-          >
+        <Fade style={{ ...styles.buttonBack }} closeTriger={emailExist}>
+          <AppButton onPress={setEmailExist.bind(null, true)}>
             <AntDesign name="arrowleft" size={24} color={THEME.DARK_COLOR} />
           </AppButton>
-        )}
-        <AppTextBold>{emailExist ? "Sign In" : "Sign Up"}</AppTextBold>
+        </Fade>
+        <Fade closeTriger={emailExist}>
+          <AppTextBold>Sign Up</AppTextBold>
+        </Fade>
+        <Fade closeTriger={!emailExist}>
+          <AppTextBold>Sign In</AppTextBold>
+        </Fade>
       </View>
       <View style={styles.inputs}>
         <AppTextBold style={styles.label}>Login:</AppTextBold>
@@ -133,7 +148,9 @@ export const AuthLayout = () => {
           textContentType="password"
           secureTextEntry={true}
           value={password}
-          placeholder="password"
+          placeholder={
+            emailExist ? "Your password..." : "At least 8 characters long"
+          }
           onChangeText={setPassword}
           autoCapitalize="none"
           autoCompleteType="password"
@@ -142,7 +159,7 @@ export const AuthLayout = () => {
           placeholderTextColor={THEME.GREY_COLOR}
           returnKeyType={emailExist ? "go" : "next"}
         />
-        {emailExist ? null : (
+        <Fade closeTriger={emailExist}>
           <View>
             <AppTextBold style={styles.label}>Confirm password:</AppTextBold>
             <TextInput
@@ -160,51 +177,64 @@ export const AuthLayout = () => {
               returnKeyType="go"
             />
           </View>
-        )}
+        </Fade>
       </View>
       <View style={styles.buttons}>
         <AppButton onPress={handlerLoginGuest}>
           <AppTextBold>Guest mode</AppTextBold>
         </AppButton>
-        {emailExist ? (
-          email || password ? (
-            emailValid && passwordValid ? (
+        <Fade closeTriger={!(email || password)}>
+          {emailExist ? (
+            <Spin angle={-0.25}>
               <AppButton onPress={handlerSignIn}>
-                <AntDesign
-                  name="arrowright"
-                  size={24}
-                  color={THEME.DARK_COLOR}
-                />
+                {emailValid && passwordValid ? (
+                  <AntDesign
+                    name="arrowright"
+                    size={24}
+                    color={THEME.DARK_COLOR}
+                  />
+                ) : (
+                  <AntDesign
+                    name="arrowright"
+                    size={24}
+                    color={THEME.GREY_COLOR}
+                  />
+                )}
               </AppButton>
-            ) : (
-              <AppButton onPress={() => {}}>
-                <AntDesign
-                  name="arrowright"
-                  size={24}
-                  color={THEME.GREY_COLOR}
-                />
+            </Spin>
+          ) : (
+            <Spin angle={0.25}>
+              <AppButton onPress={handlerSignUp}>
+                {emailValid && passwordValid && passwordEquile ? (
+                  <AntDesign
+                    name="arrowup"
+                    size={24}
+                    color={THEME.DARK_COLOR}
+                  />
+                ) : (
+                  <AntDesign
+                    name="arrowup"
+                    size={24}
+                    color={THEME.GREY_COLOR}
+                  />
+                )}
               </AppButton>
-            )
-          ) : null
-        ) : (
-          <AppButton onPress={handlerSignUp}>
-            {emailValid && passwordValid && passwordEquile ? (
-              <AntDesign name="arrowup" size={24} color={THEME.DARK_COLOR} />
-            ) : (
-              <AntDesign name="arrowup" size={24} color={THEME.GREY_COLOR} />
-            )}
-          </AppButton>
-        )}
+            </Spin>
+          )}
+        </Fade>
       </View>
     </View>
   );
 };
 
+// header options
+AuthLayout.navigationOptions = {
+  headerShown: false,
+};
+
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    ...THEME.CONTAINER_CENTER,
   },
   header: {
     paddingHorizontal: 20,
