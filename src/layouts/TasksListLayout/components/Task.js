@@ -17,7 +17,7 @@ import { boardContext } from "../../../context/contexts";
 //   task - current task
 //   removeTask - method to remove current task
 export const Task = ({ navigation, boardId, task }) => {
-  const { removeTask, renameTask, doneTask } = useContext(boardContext);
+  const { boards, removeTask, renameTask, doneTask } = useContext(boardContext);
 
   const [title, setTitle] = useState(task.title);
   const [isConfig, setIsConfig] = useState(false);
@@ -34,7 +34,7 @@ export const Task = ({ navigation, boardId, task }) => {
   const pressHandler = () => {
     isConfig
       ? setIsConfig(false)
-      : // : navigation.navigate("Task", { boardId, task });
+      : navigation.push("Tasks", { board: boards[0] });
         null;
   };
 
@@ -107,12 +107,8 @@ export const Task = ({ navigation, boardId, task }) => {
 
 const styles = StyleSheet.create({
   config: {
-    width: THEME.TASK_WIDTH,
-    alignItems: "center",
-    borderWidth: THEME.BORDER_WIDTH,
-    borderColor: THEME.DARK_COLOR,
-    borderRadius: THEME.TASK_RADIUS,
-    marginTop: 10,
+    ...THEME.TASK,
+    flexDirection: "column",
   },
   configHeader: {
     flexDirection: "row",
@@ -129,18 +125,12 @@ const styles = StyleSheet.create({
     marginVertical: 15,
   },
   task: {
-    width: THEME.TASK_WIDTH,
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderWidth: THEME.BORDER_WIDTH,
-    borderColor: THEME.DARK_COLOR,
-    borderRadius: THEME.TASK_RADIUS,
-    marginTop: 10,
+    ...THEME.TASK,
   },
-  taskCheckBox: {},
+  taskCheckBox: {
+  },
   taskTitle: {
+    marginLeft: 5,
     fontSize: THEME.FONT_SIZE,
   },
 });

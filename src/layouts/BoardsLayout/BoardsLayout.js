@@ -5,8 +5,7 @@ import { StyleSheet, View, FlatList, Button } from "react-native";
 // app components
 import { Board } from "./components/Board";
 import { AppButton } from "../../ui/AppButton";
-import { AppLoader } from "../../ui/AppLoader";
-import { AppText } from "../../ui/AppText";
+import { AppLoading } from "../../ui/AppLoading";
 
 // context
 import { appContext, userContext, boardContext } from "../../context/contexts";
@@ -15,7 +14,8 @@ import { appContext, userContext, boardContext } from "../../context/contexts";
 import { THEME } from "../../themes";
 
 // icons
-import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
+import { AppError } from "../../ui/AppError";
 
 // Boards list layout (screen).
 // Main app scrren, contain all boards.
@@ -25,8 +25,7 @@ export const BoardsLayout = ({ navigation }) => {
   // fetchBoards - load boards from DB.
   // loading - state for showing loader component
   // error - state for showing error
-  const { user, signOut, checkAuth } = useContext(userContext);
-  const { loading, error } = useContext(appContext);
+  const { user } = useContext(userContext);
   const { boards, fetchBoards } = useContext(boardContext);
 
   // load boards from DB
@@ -35,29 +34,12 @@ export const BoardsLayout = ({ navigation }) => {
   ]);
 
   useEffect(() => {
-    checkAuth();
-  }, []);
-  useEffect(() => {
-    if (!user) {
+    if (user === null) {
       navigation.navigate("Auth");
     } else {
       loadBoards();
     }
   }, [user]);
-
-  if (loading) return <AppLoader style={styles.loader} />; // TODO: add custom animation
-  if (error)
-    return (
-      <View style={styles.errorView}>
-        <AppText style={styles.errorText}>{error}</AppText>
-        {/* add error image (background) */}
-        <Button
-          onPress={loadBoards}
-          title="Try again"
-          color={THEME.MAIN_COLOR}
-        />
-      </View>
-    );
 
   // handle, move to board's tasks screen
   const openBoard = (board) => {
@@ -66,6 +48,8 @@ export const BoardsLayout = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      {/* <AppLoading /> */}
+      <AppError />
       <FlatList
         style={{ width: "100%" }} // use 2 styles to move scrollbar to the right
         contentContainerStyle={{ alignItems: "center" }} // use 2 styles to move scrollbar to the right
@@ -78,7 +62,7 @@ export const BoardsLayout = ({ navigation }) => {
           // only show if less then 2 boards
           boards.length < 2 ? (
             <AppButton onPress={navigation.navigate.bind(null, "AddBoard")}>
-              <View style={styles.block}>
+              <View style={styles.addButtonLarge}>
                 <MaterialIcons size={36} name="add" color={THEME.DARK_COLOR} />
               </View>
             </AppButton>
@@ -101,63 +85,16 @@ export const BoardsLayout = ({ navigation }) => {
 // header options
 BoardsLayout.navigationOptions = {
   headerShown: false,
-  headerTitleAlign: "center",
-  headerStyle: {
-    elevation: 0,
-    backgroundColor: THEME.LIGHT_COLOR,
-  },
-  headerTitleStyle: {
-    color: THEME.TEXT_COLOR,
-    fontSize: THEME.FONT_SIZE,
-    fontFamily: "rotota-bold",
-  },
-  headerRight: () => (
-    <AppButton
-      onPress={() => {
-        FBsignOut();
-      }}
-    >
-      <MaterialCommunityIcons
-        name="logout-variant"
-        size={30}
-        color={THEME.DARK_COLOR}
-      />
-    </AppButton>
-  ),
-  headerRightContainerStyle: {
-    paddingRight: 10,
-  },
 };
 
 const styles = StyleSheet.create({
   container: {
     ...THEME.HEADER,
-    flex: 1,
-    alignItems: "center",
+    ...THEME.CONTAINER_CENTER,
   },
-  loader: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  errorView: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  errorText: {
-    marginBottom: 30,
-    paddingHorizontal: 50,
-    alignContent: "center",
-  },
-  block: {
-    alignItems: "center",
-    justifyContent: "center",
-    height: THEME.BOARD_SIZE,
-    width: THEME.BOARD_SIZE,
-    marginVertical: 10,
-    borderWidth: 1,
-    borderRadius: THEME.BOARD_RADIUS,
+  addButtonLarge: {
+    ...THEME.CONTAINER_CENTER,
+    ...THEME.BOARD,
   },
   addButton: {
     position: "absolute",

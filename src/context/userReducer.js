@@ -1,6 +1,4 @@
-import {
-  SET_USER,
-} from "./types";
+import { SET_USER } from "./types";
 
 const handlers = {
   [SET_USER]: (state, { user }) => ({ ...state, user }),

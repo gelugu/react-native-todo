@@ -12,6 +12,19 @@ export const THEME = {
   FONT_SIZE_SMALL: 14,
   FONT_SIZE_BOLD: 18,
 
+  ICON_SMALL: 24,
+  ICON_MEDIUM: 36,
+  ICON_LARGE: 48,
+
+  LOADING: {
+    width: Dimensions.get("screen").width,
+    height: Dimensions.get("screen").height,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#edf2f4",
+    position: "absolute"
+  },
+
   HEADER: {
     paddingTop: Dimensions.get("screen").height - Dimensions.get("window").height + 10,
 
@@ -24,9 +37,32 @@ export const THEME = {
     alignItems: "center",
     justifyContent: "center",
   },
-    
 
-  BORDER_WIDTH: 0.3,
+  BOARD: {
+    width: Dimensions.get("window").width * 0.9,
+    height: Dimensions.get("window").width * 0.9,
+    borderWidth: .3,
+    borderColor: "transparent",
+    borderRadius: 20,
+    marginBottom: 10,
+    elevation: 1.5,
+  },
+    
+  TASK: {
+    width: Dimensions.get("window").width * 0.9,
+    // height: Dimensions.get("window").width * 0.9,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    marginTop: 10,
+    borderWidth: .3,
+    borderColor: "transparent",
+    borderRadius: 5,
+    elevation: 1.5,
+  },
+    
+  BORDER_WIDTH: .3,
   BORDER_BOLD_WIDTH: 1,
 
   BOARD_RADIUS: 20,

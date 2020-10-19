@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 
 import { AppTextBold } from "../../ui/AppTextBold";
@@ -10,33 +10,23 @@ import { AntDesign } from "@expo/vector-icons";
 import { THEME } from "../../themes";
 
 import { appContext, userContext } from "../../context/contexts";
-import { AppLoader } from "../../ui/AppLoader";
+import { AppLoading } from "../../ui/AppLoading";
+import { AppError } from "../../ui/AppError";
 
 export const AuthLayout = ({ navigation }) => {
-  const { loading } = useContext(appContext);
-  const {
-    user,
-    signIn,
-    signUp,
-    logInAnonymous,
-    isUserExist,
-  } = useContext(userContext);
+  const { user, signIn, signUp, logInAnonymous, isUserExist } = useContext(
+    userContext
+  );
 
-  const [email, setEmail] = useState("black.kitty@gmail.com");
-  const [password, setPassword] = useState("1234567890");
-  const [passwordConfirm, setPasswordConfirm] = useState("1234567890");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
 
   const [emailValid, setEmailValid] = useState(false);
   const [passwordValid, setPasswordValid] = useState(false);
   const [passwordEquile, setPasswordEquile] = useState(false);
 
   const [emailExist, setEmailExist] = useState(true);
-
-  const [emailBorder, setEmailBorder] = useState(THEME.DARK_COLOR);
-  const [passwordBorder, setPasswordBorder] = useState(THEME.DARK_COLOR);
-  const [passwordConfirmBorder, setPasswordConfirmBorder] = useState(
-    THEME.DARK_COLOR
-  );
 
   useEffect(() => {
     if (user) navigation.navigate("Boards");
@@ -46,30 +36,24 @@ export const AuthLayout = ({ navigation }) => {
     const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (reg.test(email.trim()) === false) {
       setEmailValid(false);
-      setEmailBorder(THEME.RED_COLOR);
     } else {
       setEmailValid(true);
-      setEmailBorder(THEME.DARK_COLOR);
     }
   }, [email]);
 
   useEffect(() => {
     if (password.length < 8) {
       setPasswordValid(false);
-      setPasswordBorder(THEME.RED_COLOR);
     } else {
       setPasswordValid(true);
-      setPasswordBorder(THEME.DARK_COLOR);
     }
   }, [password]);
 
   useEffect(() => {
     if (password !== passwordConfirm) {
       setPasswordEquile(false);
-      setPasswordConfirmBorder(THEME.RED_COLOR);
     } else {
       setPasswordEquile(true);
-      setPasswordConfirmBorder(THEME.DARK_COLOR);
     }
   }, [password, passwordConfirm]);
 
@@ -103,19 +87,18 @@ export const AuthLayout = ({ navigation }) => {
     } else await signUp(email, password);
   };
 
-  if (loading)
-    return (
-      <View style={styles.container}>
-        <AppLoader />
-      </View>
-    );
-
   return (
     <View style={styles.container}>
+      <AppLoading />
+      <AppError />
       <View style={styles.header}>
-        <Fade style={{ ...styles.buttonBack }} closeTriger={emailExist}>
+        <Fade style={styles.buttonBack} closeTriger={emailExist}>
           <AppButton onPress={setEmailExist.bind(null, true)}>
-            <AntDesign name="arrowleft" size={24} color={THEME.DARK_COLOR} />
+            <AntDesign
+              name="arrowleft"
+              size={THEME.ICON_SMALL}
+              color={THEME.DARK_COLOR}
+            />
           </AppButton>
         </Fade>
         <Fade closeTriger={emailExist}>
@@ -128,7 +111,10 @@ export const AuthLayout = ({ navigation }) => {
       <View style={styles.inputs}>
         <AppTextBold style={styles.label}>Login:</AppTextBold>
         <TextInput
-          style={{ ...styles.input, borderColor: emailBorder }}
+          style={{
+            ...styles.input,
+            borderColor: emailValid ? THEME.DARK_COLOR : THEME.RED_COLOR,
+          }}
           value={email}
           onChangeText={handlerOnChange}
           placeholder="email"
@@ -144,7 +130,10 @@ export const AuthLayout = ({ navigation }) => {
         />
         <AppTextBold style={styles.label}>Password:</AppTextBold>
         <TextInput
-          style={{ ...styles.input, borderColor: passwordBorder }}
+          style={{
+            ...styles.input,
+            borderColor: passwordValid ? THEME.DARK_COLOR : THEME.RED_COLOR,
+          }}
           textContentType="password"
           secureTextEntry={true}
           value={password}
@@ -163,7 +152,12 @@ export const AuthLayout = ({ navigation }) => {
           <View>
             <AppTextBold style={styles.label}>Confirm password:</AppTextBold>
             <TextInput
-              style={{ ...styles.input, borderColor: passwordConfirmBorder }}
+              style={{
+                ...styles.input,
+                borderColor: passwordEquile
+                  ? THEME.DARK_COLOR
+                  : THEME.RED_COLOR,
+              }}
               textContentType="password"
               secureTextEntry={true}
               value={passwordConfirm}
@@ -187,37 +181,29 @@ export const AuthLayout = ({ navigation }) => {
           {emailExist ? (
             <Spin angle={-0.25}>
               <AppButton onPress={handlerSignIn}>
-                {emailValid && passwordValid ? (
-                  <AntDesign
-                    name="arrowright"
-                    size={24}
-                    color={THEME.DARK_COLOR}
-                  />
-                ) : (
-                  <AntDesign
-                    name="arrowright"
-                    size={24}
-                    color={THEME.GREY_COLOR}
-                  />
-                )}
+                <AntDesign
+                  name="arrowright"
+                  size={THEME.ICON_SMALL}
+                  color={
+                    emailValid && passwordValid
+                      ? THEME.DARK_COLOR
+                      : THEME.GREY_COLOR
+                  }
+                />
               </AppButton>
             </Spin>
           ) : (
             <Spin angle={0.25}>
               <AppButton onPress={handlerSignUp}>
-                {emailValid && passwordValid && passwordEquile ? (
-                  <AntDesign
-                    name="arrowup"
-                    size={24}
-                    color={THEME.DARK_COLOR}
-                  />
-                ) : (
-                  <AntDesign
-                    name="arrowup"
-                    size={24}
-                    color={THEME.GREY_COLOR}
-                  />
-                )}
+                <AntDesign
+                  name="arrowup"
+                  size={THEME.ICON_SMALL}
+                  color={
+                    emailValid && passwordValid && passwordEquile
+                      ? THEME.DARK_COLOR
+                      : THEME.GREY_COLOR
+                  }
+                />
               </AppButton>
             </Spin>
           )}
@@ -227,17 +213,11 @@ export const AuthLayout = ({ navigation }) => {
   );
 };
 
-// header options
-AuthLayout.navigationOptions = {
-  headerShown: false,
-};
-
 const styles = StyleSheet.create({
   container: {
     ...THEME.CONTAINER_CENTER,
   },
   header: {
-    paddingHorizontal: 20,
     marginBottom: 15,
     width: THEME.TASK_WIDTH,
     flexDirection: "row",
@@ -263,7 +243,7 @@ const styles = StyleSheet.create({
     borderRadius: THEME.TASK_RADIUS,
   },
   buttons: {
-    width: 300,
+    width: THEME.TASK_WIDTH,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-around",

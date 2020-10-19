@@ -1,4 +1,4 @@
-import React, { useContext, useReducer } from "react";
+import React, { useCallback, useContext, useEffect, useReducer } from "react";
 
 import { appContext, userContext } from "./contexts";
 import { userReducer } from "./userReducer";
@@ -7,29 +7,34 @@ import { auth } from "./firebase";
 
 export const UserState = ({ children }) => {
   const [state, dispatch] = useReducer(userReducer, {
-    user: null,
+    user: {},
   });
 
   const { showLoader, hideLoader, showError, clearError } = useContext(
     appContext
   );
 
+  useEffect(() => {
+    checkAuth();
+  }, [])
+  
   const setUser = (user) => dispatch({ type: SET_USER, user });
 
   const isUserExist = async (email) => {
     clearError();
 
-    const res = await auth()
-      .fetchSignInMethodsForEmail(email)
-      .catch((error) => {
-        showError(error);
-      });
-    return res;
+    try {
+      const res = await auth().fetchSignInMethodsForEmail(email);
+      return res;
+    } catch (error) {
+      showError(error);
+    }
   };
 
   const checkAuth = async () => {
     showLoader();
     clearError();
+
     try {
       auth().onAuthStateChanged((user) => {
         setUser(user);
@@ -41,38 +46,62 @@ export const UserState = ({ children }) => {
     }
   };
   const signIn = async (email, password) => {
-    await auth().setPersistence(auth.Auth.Persistence.LOCAL);
+    clearError();
+    showLoader();
 
-    await auth().signInWithEmailAndPassword(email, password);
-    // .then((res) => {
-    //   setUser(res.user);
-    // });
-    await checkAuth();
+    try {
+      await auth().setPersistence(auth.Auth.Persistence.LOCAL);
+      await auth().signInWithEmailAndPassword(email, password);
+      await checkAuth();
+    } catch (error) {
+      showError(error);
+    } finally {
+      hideLoader();
+    }
   };
 
   const signUp = async (email, password) => {
-    await auth().createUserWithEmailAndPassword(email, password);
-    // .catch(async (error) => {
-    //   console.error(error.code, "\n", error.message);   // show error
-    // });
-    await auth().currentUser.updateProfile({
-      displayName: email.split("@")[0],
-    });
+    showLoader();
+    clearError();
+
+    try {
+      await auth().createUserWithEmailAndPassword(email, password);
+      await auth().currentUser.updateProfile({
+        displayName: email.split("@")[0],
+      });
+    } catch (error) {
+      showError(error);
+    } finally {
+      hideLoader();
+    }
   };
 
   const signOut = async () => {
-    await auth().signOut();
-    await checkAuth();
+    showLoader();
+    clearError();
+
+    try {
+      await auth().signOut();
+      await checkAuth();
+    } catch (error) {
+      showError(error);
+    } finally {
+      hideLoader();
+    }
   };
 
   const logInAnonymous = async () => {
-    await auth()
-      .signInAnonymously()
-      .catch((error) => {
-        console.error(error.code, error.message);
-      });
+    showLoader();
+    clearError();
 
-    return auth().currentUser;
+    try {
+      await auth().signInAnonymously();
+      await checkAuth();
+    } catch (error) {
+      showError();
+    } finally {
+      hideLoader();
+    }
   };
 
   return (

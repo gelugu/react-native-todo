@@ -136,14 +136,7 @@ export const Board = ({ board, openBoard }) => {
 
 const styles = StyleSheet.create({
   board: {
-    width: THEME.BOARD_SIZE,
-    height: THEME.BOARD_SIZE,
-    borderWidth: THEME.BORDER_WIDTH,
-    borderColor: "transparent",
-    borderRadius: THEME.BOARD_RADIUS,
-    marginBottom: 10,
-
-    elevation: 1.5,
+    ...THEME.BOARD,
   },
   header: {
     flexDirection: "row",

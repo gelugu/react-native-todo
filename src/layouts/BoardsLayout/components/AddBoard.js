@@ -134,16 +134,11 @@ AddBoard.navigationOptions = {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center",
+    ...THEME.CONTAINER_CENTER,
     marginTop: THEME.HEADER_HEIGHT,
   },
   block: {
-    width: THEME.BOARD_SIZE,
-    height: THEME.BOARD_SIZE,
-    borderWidth: THEME.BORDER_WIDTH,
-    borderColor: THEME.DARK_COLOR,
-    borderRadius: THEME.BOARD_RADIUS,
-    marginTop: 10,
+    ...THEME.BOARD,
   },
   header: {
     flexDirection: "row",

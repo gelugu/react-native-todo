@@ -21,32 +21,7 @@ const Navigator = createStackNavigator(
   {
     initialRoutName: "Boards",
     defaultNavigationOptions: {
-      // headerShown: false,
-      // headerTitleAlign: "center",
-      // headerStyle: {
-      //   elevation: 0,
-      //   backgroundColor: THEME.LIGHT_COLOR,
-      // },
-      // headerTitleStyle: {
-      //   color: THEME.TEXT_COLOR,
-      //   fontSize: THEME.FONT_SIZE,
-      //   fontFamily: "rotota-bold",
-      // },
-      // headerRight: () => (
-      //   <AppButton onPress={() => {
-      //     FBsignOut();
-
-      //   }}>
-      //     <MaterialCommunityIcons
-      //       name="logout-variant"
-      //       size={30}
-      //       color={THEME.DARK_COLOR}
-      //     />
-      //   </AppButton>
-      // ),
-      // headerRightContainerStyle: {
-      //   paddingRight: 10
-      // }
+      headerShown: false,
     },
   }
 );

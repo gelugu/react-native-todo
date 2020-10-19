@@ -40,25 +40,15 @@ export const TaskListLayout = ({ navigation }) => {
 
 TaskListLayout.navigationOptions = ({ navigation }) => {
   return {
+    headerShown: true,
     headerTitle: navigation.getParam("board").title,
-    // headerRight: () => (
-    //   <AppButton onPress={() => {}}>
-    //     <MaterialIcons
-    //       style={{ paddingRight: 10 }}
-    //       name="more-horiz"
-    //       size={36}
-    //       color={THEME.DARK_COLOR}
-    //     />
-    //   </AppButton>
-    // ),
   };
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: "center",
-    paddingHorizontal: 10,
+    ...THEME.CONTAINER_CENTER,
+    // paddingHorizontal: 10,
   },
   list: {
     alignItems: "center",
