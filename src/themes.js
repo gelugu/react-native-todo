@@ -16,6 +16,9 @@ export const THEME = {
   ICON_MEDIUM: 36,
   ICON_LARGE: 48,
 
+  APP_WIDTH: Dimensions.get("screen").width,
+  APP_HEIGHT: Dimensions.get("screen").height,
+
   LOADING: {
     width: Dimensions.get("screen").width,
     height: Dimensions.get("screen").height,
@@ -56,6 +59,13 @@ export const THEME = {
     paddingHorizontal: 10,
     paddingVertical: 5,
     marginTop: 10,
+    borderWidth: .3,
+    borderColor: "transparent",
+    borderRadius: 5,
+    elevation: 1.5,
+  },
+
+  BORDER: {
     borderWidth: .3,
     borderColor: "transparent",
     borderRadius: 5,

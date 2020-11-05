@@ -11,11 +11,11 @@ Project Description
 - [ ] error page  
 - [ ] task timer  
 - [ ] timer  
+- [ ] tasks task  
 
 ### In Progress
 
-- [ ] fix auth jumping  
-- [ ] tasks task  
+- [ ] swipeable menu  
 
 ### Style ✓
 

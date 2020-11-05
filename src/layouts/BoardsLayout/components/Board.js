@@ -127,6 +127,15 @@ export const Board = ({ board, openBoard }) => {
                 </View>
               );
             }}
+            ListEmptyComponent={
+              <View style={THEME.CONTAINER_CENTER}>
+                <MaterialIcons
+                  name="no-sim"
+                  size={THEME.ICON_LARGE}
+                  color={THEME.DARK_COLOR}
+                />
+              </View>
+            }
           />
         </View>
       )}

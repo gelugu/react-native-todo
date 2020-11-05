@@ -8,6 +8,7 @@ import { BoardsLayout } from "../layouts/BoardsLayout/BoardsLayout";
 import { AddBoard } from "../layouts/BoardsLayout/components/AddBoard";
 import { TaskLayout } from "../layouts/TaskLayout/TaskLayout";
 import { TaskListLayout } from "../layouts/TasksListLayout/TaskListLayout";
+import { UserLayout } from "../layouts/UserLoyout/UserLayout";
 import { THEME } from "../themes";
 
 const Navigator = createStackNavigator(
@@ -17,6 +18,7 @@ const Navigator = createStackNavigator(
     Tasks: TaskListLayout,
     Task: TaskLayout,
     Auth: AuthLayout,
+    User: UserLayout,
   },
   {
     initialRoutName: "Boards",

@@ -1,6 +1,12 @@
 // react components
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { StyleSheet, View, FlatList, Button } from "react-native";
+import {
+  StyleSheet,
+  View,
+  FlatList,
+  Button,
+  RefreshControl,
+} from "react-native";
 
 // app components
 import { Board } from "./components/Board";
@@ -16,6 +22,7 @@ import { THEME } from "../../themes";
 // icons
 import { MaterialIcons } from "@expo/vector-icons";
 import { AppError } from "../../ui/AppError";
+import { ButtonRow } from "./components/ButtonRow";
 
 // Boards list layout (screen).
 // Main app scrren, contain all boards.
@@ -28,10 +35,14 @@ export const BoardsLayout = ({ navigation }) => {
   const { user } = useContext(userContext);
   const { boards, fetchBoards } = useContext(boardContext);
 
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
   // load boards from DB
-  const loadBoards = useCallback(async () => await fetchBoards(), [
-    fetchBoards,
-  ]);
+  const loadBoards = useCallback(async () => {
+    setIsRefreshing(true);
+    await fetchBoards();
+    setIsRefreshing(false);
+  }, [fetchBoards]);
 
   useEffect(() => {
     if (user === null) {
@@ -68,16 +79,15 @@ export const BoardsLayout = ({ navigation }) => {
             </AppButton>
           ) : null
         }
+        refreshControl={
+          <RefreshControl
+            colors={[THEME.GREY_COLOR]}
+            refreshing={isRefreshing}
+            onRefresh={loadBoards}
+          />
+        }
       />
-      {/* when more then 2 boards show small button */}
-      {boards.length >= 2 ? (
-        <View style={styles.addButton}>
-          <AppButton onPress={navigation.navigate.bind(null, "AddBoard")}>
-            <MaterialIcons name="add-box" size={50} color={THEME.DARK_COLOR} />
-          </AppButton>
-        </View>
-      ) : null}
-      {/* modal component to add new board */}
+      <ButtonRow navigation={navigation} />
     </View>
   );
 };
@@ -95,10 +105,5 @@ const styles = StyleSheet.create({
   addButtonLarge: {
     ...THEME.CONTAINER_CENTER,
     ...THEME.BOARD,
-  },
-  addButton: {
-    position: "absolute",
-    bottom: 25,
-    right: 25,
   },
 });
