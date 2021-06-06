@@ -10,6 +10,6 @@ const styles = StyleSheet.create({
   default: {
     color: THEME.TEXT_COLOR,
     fontSize: THEME.FONT_SIZE,
-    fontFamily: "Courier-new",
+    fontFamily: "CourierPrimeBold",
   },
 });
