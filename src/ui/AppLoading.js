@@ -8,7 +8,7 @@ export const AppLoading = () => {
   const {loading} = useContext(appContext)
   return <Fade style={THEME.LOADING} closeTriger={!loading} duration={200}>
   <View>
-    <ActivityIndicator size="large" color={THEME.DARK_COLOR} />
+    <ActivityIndicator size="large" color={THEME.LIGHT_COLOR} />
   </View>
 </Fade>
 };

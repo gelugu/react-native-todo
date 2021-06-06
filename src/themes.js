@@ -1,16 +1,15 @@
 import { Dimensions } from "react-native";
 
 export const THEME = {
-  DARK_COLOR: "#2b2d42",
-  GREY_COLOR: "#8d99ae",
-  LIGHT_COLOR: "#edf2f4",
-  RED_COLOR: "#d90429",
-  LIGHT_RED_COLOR: "#ef233c",
-  TEXT_COLOR: "#2b2d42",
+  DARK_COLOR: "#252422",
+  GREY_COLOR: "#403d39",
+  LIGHT_COLOR: "#ccc5b9",
+  RED_COLOR: "#eb5e28",
+  TEXT_COLOR: "#fffcf2",
 
-  FONT_SIZE: 16,
-  FONT_SIZE_SMALL: 14,
-  FONT_SIZE_BOLD: 18,
+  FONT_SIZE: 18,
+  FONT_SIZE_SMALL: 16,
+  FONT_SIZE_BOLD: 20,
 
   ICON_SMALL: 24,
   ICON_MEDIUM: 36,
@@ -24,7 +23,7 @@ export const THEME = {
     height: Dimensions.get("screen").height,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#edf2f4",
+    backgroundColor: "#252422",
     position: "absolute"
   },
 
@@ -72,7 +71,7 @@ export const THEME = {
     elevation: 1.5,
   },
     
-  BORDER_WIDTH: .3,
+  BORDER_WIDTH: .5,
   BORDER_BOLD_WIDTH: 1,
 
   BOARD_RADIUS: 20,
