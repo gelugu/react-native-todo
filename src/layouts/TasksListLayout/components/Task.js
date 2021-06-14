@@ -2,20 +2,17 @@ import React, { useContext, useState } from "react";
 import {
   View,
   StyleSheet,
-  TouchableOpacity,
   TouchableNativeFeedback,
   TextInput,
 } from "react-native";
-import { THEME } from "../../../themes";
 
 import { AppText } from "../../../ui/AppText";
 import { AppButton } from "../../../ui/AppButton";
 import { MaterialIcons } from "@expo/vector-icons";
 import { boardContext } from "../../../context/contexts";
+import { colors, deviceWidth, fontSize, iconSize } from "../../../styleConfig";
+// import { TaskConfig } from "./TaskConfig";
 
-// Task element
-//   task - current task
-//   removeTask - method to remove current task
 export const Task = ({ navigation, boardId, task }) => {
   const { boards, removeTask, renameTask, doneTask } = useContext(boardContext);
 
@@ -35,7 +32,7 @@ export const Task = ({ navigation, boardId, task }) => {
     isConfig
       ? setIsConfig(false)
       : navigation.push("Tasks", { board: boards[0] });
-        null;
+    null;
   };
 
   const longPressHandler = () => {
@@ -46,91 +43,48 @@ export const Task = ({ navigation, boardId, task }) => {
       : setIsConfig(true);
   };
 
-  const Wrapper =
-    Platform.OS === "android" ? TouchableNativeFeedback : TouchableOpacity;
+  const onCheckboxTouch = () => {
+    doneTask(boardId, task.id, !task.done)
+  }
 
   return (
-    <Wrapper onLongPress={longPressHandler} onPress={pressHandler}>
-      {isConfig ? (
-        <View style={styles.config}>
-          <View style={styles.configHeader}>
-            <TextInput
-              value={title}
-              onChangeText={setTitle}
-              style={styles.configInput}
-            />
-            {title !== task.title ? (
-              <AppButton onPress={renameHandler}>
-                <MaterialIcons name="done" size={24} color={THEME.DARK_COLOR} />
-              </AppButton>
-            ) : null}
-          </View>
-          <View style={styles.configButtons}>
-            <AppButton onPress={removeHandler}>
-              <AppText style={{ color: THEME.RED_COLOR }}>Delete</AppText>
-            </AppButton>
-            <AppButton
-              onPress={() => {
-                setTitle(task.title);
-                setIsConfig(false);
-              }}
-            >
-              <AppText>Back</AppText>
-            </AppButton>
-          </View>
-        </View>
-      ) : (
-        <View style={styles.task}>
-          <AppButton
-            onPress={doneTask.bind(null, boardId, task.id, !task.done)}
-          >
-            {task.done ? (
-              <MaterialIcons
-                name="check-box"
-                size={24}
-                color={THEME.DARK_COLOR}
-              />
-            ) : (
-              <MaterialIcons
-                name="check-box-outline-blank"
-                size={24}
-                color={THEME.DARK_COLOR}
-              />
-            )}
-          </AppButton>
-          <AppText style={styles.taskTitle}>{task.title}</AppText>
-        </View>
-      )}
-    </Wrapper>
+    <TouchableNativeFeedback
+      onLongPress={longPressHandler}
+      onPress={pressHandler}
+    >
+      {/* {isConfig && <TaskConfig />} */}
+      <View style={styles.task}>
+        <AppButton onPress={onCheckboxTouch}>
+          <MaterialIcons
+            name={task.done ? "check-box" : "check-box-outline-blank"}
+            size={iconSize.small}
+            color={colors.secondary}
+          />
+        </AppButton>
+        <AppText style={styles.taskTitle}>{task.title}</AppText>
+      </View>
+    </TouchableNativeFeedback>
   );
 };
 
 const styles = StyleSheet.create({
-  config: {
-    ...THEME.TASK,
-    flexDirection: "column",
-  },
-  configHeader: {
+  task: {
+    width: deviceWidth * 0.9,
+
     flexDirection: "row",
     alignItems: "center",
+
     paddingHorizontal: 10,
+    paddingVertical: 5,
+    marginTop: 10,
+
+    borderWidth: 0.3,
+    borderColor: colors.secondary,
+    borderRadius: 5,
   },
-  configInput: {
-    fontSize: THEME.FONT_SIZE,
-    flex: 1,
-    borderBottomWidth: THEME.BORDER_WIDTH,
-    borderBottomColor: THEME.DARK_COLOR,
-  },
-  configButtons: {
-    marginVertical: 15,
-  },
-  task: {
-    ...THEME.TASK,
-  },
-  taskCheckBox: {
-  },
+  taskCheckBox: {},
   taskTitle: {
     marginLeft: 5,
-    fontSize: THEME.FONT_SIZE,
+    fontSize: fontSize.regular,
   },
 });

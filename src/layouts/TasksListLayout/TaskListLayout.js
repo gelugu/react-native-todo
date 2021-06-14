@@ -7,10 +7,10 @@ import { THEME } from "../../themes";
 import { AppText } from "../../ui/AppText";
 import { MaterialIcons } from "@expo/vector-icons";
 import { boardContext } from "../../context/contexts";
+import { colors } from "../../styleConfig";
 
-//  task list element
 export const TaskListLayout = ({ navigation }) => {
-  const { board } = navigation.state.params; // use getParam()
+  const { board } = navigation.state.params;
   const { addTask } = useContext(boardContext);
 
   return (
@@ -42,13 +42,21 @@ TaskListLayout.navigationOptions = ({ navigation }) => {
   return {
     headerShown: true,
     headerTitle: navigation.getParam("board").title,
+    headerTintColor: colors.text,
+    headerStyle: {
+      backgroundColor: colors.background,
+      fontFamily: "CourierPrimeBold",
+    },
   };
 };
 
 const styles = StyleSheet.create({
   container: {
-    ...THEME.CONTAINER_CENTER,
-    // paddingHorizontal: 10,
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+
+    backgroundColor: colors.background,
   },
   list: {
     alignItems: "center",
