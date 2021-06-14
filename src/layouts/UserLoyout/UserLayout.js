@@ -20,18 +20,23 @@ import { AppError } from "../../ui/AppError";
 import { AppLoading } from "../../ui/AppLoading";
 import { AppTextBold } from "../../ui/AppTextBold";
 import { AppButton } from "../../ui/AppButton";
+import { colors } from "../../styleConfig";
 
 export const UserLayout = ({ navigation }) => {
   const { user } = useContext(userContext);
+
+  const onBackTouch = () => {
+    navigation.goBack();
+  }
 
   return (
     <View style={styles.container}>
       <AppLoading />
       <AppError />
-      <AppButton onPress={navigation.navigate.bind(null, "AddBoard")}>
+      <AppTextBold>{user.displayName}</AppTextBold>
+      <AppButton onPress={onBackTouch}>
         <AppTextBold>Back</AppTextBold>
       </AppButton>
-      <AppTextBold>{user.displayName}</AppTextBold>
     </View>
   );
 };
@@ -41,7 +46,10 @@ UserLayout.navigationOptions = {};
 
 const styles = StyleSheet.create({
   container: {
-    ...THEME.HEADER,
-    ...THEME.CONTAINER_CENTER,
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+
+    backgroundColor: colors.background,
   },
 });
