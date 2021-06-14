@@ -1,3 +1,5 @@
+import { Dimensions } from "react-native";
+
 export const colors = {
   background: "#323031",
   backgroundOpacity: "#323031aa",
@@ -22,3 +24,8 @@ export const iconSize = {
   regular: 36,
   large: 48,
 }
+
+export const statusBarHeight = Dimensions.get("screen").height - Dimensions.get("window").height;
+
+export const deviceWidth = Dimensions.get("screen").width
+export const deviceHeight = Dimensions.get("screen").height

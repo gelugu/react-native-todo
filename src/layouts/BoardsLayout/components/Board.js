@@ -1,151 +1,64 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
-  FlatList,
-  Platform,
   TouchableNativeFeedback,
-  TouchableOpacity,
-  TextInput,
 } from "react-native";
 
-import { AppText } from "../../../ui/AppText";
-import { AppButton } from "../../../ui/AppButton";
-
-import { boardContext } from "../../../context/contexts";
-
-import { THEME } from "../../../themes";
-
 import { MaterialIcons } from "@expo/vector-icons";
+import { AppButton } from "../../../ui/AppButton";
+// import { BoardConfig } from "./BoardConfig";
+import { TaskList } from "./TaskList";
+
+import { colors, deviceWidth, fontSize, iconSize } from "../../../styleConfig";
+import { AppTextBold } from "../../../ui/AppTextBold";
 
 export const Board = ({ board, openBoard }) => {
-  const { removeBoard, renameBoard } = useContext(boardContext);
   const [isConfig, setIsConfig] = useState(false);
-  const togleIsConfig = () => {
-    setIsConfig(!isConfig);
-    setNewTitle(board.title);
+
+  const onBoardTouch = () => {
+    if (isConfig) closeConfig();
+    else openBoard(board);
   };
 
-  const [newTitle, setNewTitle] = useState(board.title);
+  const openConfig = () => {
+    setIsConfig(true);
+  };
 
-  const Wrapper =
-    Platform.OS === "android" ? TouchableNativeFeedback : TouchableOpacity;
+  const closeConfig = () => {
+    setIsConfig(true);
+  };
+
   return (
-    <Wrapper
-      onPress={() => {
-        isConfig ? togleIsConfig() : openBoard(board);
-      }}
-      onLongPress={togleIsConfig}
-    >
-      {isConfig ? (
-        <View style={styles.board}>
-          <View style={styles.container}>
-            <View style={styles.input}>
-              <TextInput
-                value={newTitle}
-                onChangeText={setNewTitle}
-                style={styles.newTitle}
-                maxLength={30}
-              />
-              {newTitle !== board.title ? (
-                <AppButton onPress={renameBoard.bind(null, board.id, newTitle)}>
-                  <MaterialIcons
-                    name="done"
-                    size={24}
-                    color={THEME.DARK_COLOR}
-                  />
-                </AppButton>
-              ) : (
-                <AppButton onPress={setIsConfig.bind(null, false)}>
-                  <MaterialIcons
-                    name="arrow-back"
-                    size={24}
-                    color={THEME.DARK_COLOR}
-                  />
-                </AppButton>
-              )}
-            </View>
-            <View style={styles.box}>
-              <AppButton
-                style={styles.button}
-                onPress={openBoard.bind(null, board)}
-              >
-                <AppText style={styles.buttonText}>Open</AppText>
-              </AppButton>
-              <AppButton
-                style={styles.button}
-                onPress={removeBoard.bind(null, board.id)}
-              >
-                <AppText
-                  style={{ ...styles.buttonText, color: THEME.RED_COLOR }}
-                >
-                  Delete
-                </AppText>
-              </AppButton>
-              <AppButton
-                style={styles.button}
-                onPress={setIsConfig.bind(null, false)}
-              >
-                <AppText style={styles.buttonText}>Back</AppText>
-              </AppButton>
-            </View>
-          </View>
+    <TouchableNativeFeedback onPress={onBoardTouch} onLongPress={openConfig}>
+      {/* {isConfig && <BoardConfig />} */}
+      <View style={styles.board}>
+        <View style={styles.header}>
+          <AppTextBold style={styles.title}>{board.title}</AppTextBold>
+          <AppButton onPress={openConfig}>
+            <MaterialIcons
+              name="more-horiz"
+              size={36}
+              color={colors.secondary}
+            />
+          </AppButton>
         </View>
-      ) : (
-        <View style={styles.board}>
-          <View style={styles.header}>
-            <AppText style={styles.title}>{board.title}</AppText>
-            <AppButton onPress={setIsConfig.bind(null, true)}>
-              <MaterialIcons
-                name="more-horiz"
-                size={36}
-                color={THEME.DARK_COLOR}
-              />
-            </AppButton>
-          </View>
-          <FlatList
-            style={styles.list}
-            keyExtractor={(item) => item.id.toString()}
-            data={board.tasks}
-            renderItem={({ item }) => {
-              return (
-                <View style={styles.task}>
-                  {item.done ? (
-                    <MaterialIcons
-                      name="radio-button-checked"
-                      size={16}
-                      color={THEME.DARK_COLOR}
-                    />
-                  ) : (
-                    <MaterialIcons
-                      name="radio-button-unchecked"
-                      size={16}
-                      color={THEME.DARK_COLOR}
-                    />
-                  )}
-                  <AppText style={styles.taskTitle}>{item.title}</AppText>
-                </View>
-              );
-            }}
-            ListEmptyComponent={
-              <View style={THEME.CONTAINER_CENTER}>
-                <MaterialIcons
-                  name="no-sim"
-                  size={THEME.ICON_LARGE}
-                  color={THEME.DARK_COLOR}
-                />
-              </View>
-            }
-          />
-        </View>
-      )}
-    </Wrapper>
+        <TaskList tasks={board.tasks} />
+      </View>
+    </TouchableNativeFeedback>
   );
 };
 
 const styles = StyleSheet.create({
   board: {
-    ...THEME.BOARD,
+    width: deviceWidth * 0.9,
+    height: deviceWidth * 0.9,
+
+    marginBottom: 10,
+
+    borderWidth: 1,
+    borderColor: colors.secondary,
+    borderRadius: 20,
   },
   header: {
     flexDirection: "row",
@@ -155,44 +68,6 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   title: {
-    fontSize: THEME.FONT_SIZE_BOLD,
-  },
-  list: {
-    flex: 1,
-    marginBottom: 20,
-    paddingHorizontal: 20,
-  },
-  task: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-start",
-  },
-  taskTitle: {
-    fontSize: THEME.FONT_SIZE_SMALL,
-    marginLeft: 5,
-  },
-  input: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingLeft: 20,
-    paddingTop: 11,
-    paddingRight: 20,
-  },
-  newTitle: {
-    borderBottomWidth: THEME.BORDER_WIDTH,
-    borderBottomColor: THEME.DARK_COLOR,
-    flex: 1,
-    fontSize: THEME.FONT_SIZE_BOLD,
-  },
-  box: {
-    height: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  button: {
-    marginTop: 10,
-  },
-  buttonText: {
-    fontSize: THEME.FONT_SIZE_BOLD,
+    fontSize: fontSize.bold,
   },
 });
