@@ -23,10 +23,14 @@ import { AppButton } from "../../ui/AppButton";
 import { colors } from "../../styleConfig";
 
 export const UserLayout = ({ navigation }) => {
-  const { user } = useContext(userContext);
+  const { user, signOut } = useContext(userContext);
 
   const onBackTouch = () => {
     navigation.goBack();
+  }
+
+  const onExitTouch = () => {
+    signOut();
   }
 
   return (
@@ -36,6 +40,9 @@ export const UserLayout = ({ navigation }) => {
       <AppTextBold>{user.displayName}</AppTextBold>
       <AppButton onPress={onBackTouch}>
         <AppTextBold>Back</AppTextBold>
+      </AppButton>
+      <AppButton onPress={onExitTouch}>
+        <AppTextBold>Exit</AppTextBold>
       </AppButton>
     </View>
   );
