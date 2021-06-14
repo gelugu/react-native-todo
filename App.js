@@ -6,8 +6,9 @@ import { UserState } from "./src/context/UserState";
 import { BoardState } from "./src/context/BoardState";
 
 import { AppNavigator } from "./src/navigation/AppNavigation";
-import { StatusBar } from "react-native";
+import { StatusBar, StyleSheet } from "react-native";
 import { THEME } from "./src/themes";
+import { colors } from "./src/styleConfig";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -18,16 +19,16 @@ export default function App() {
   });
 
   return (
-    <AppState>
-      <UserState>
-        <BoardState>
-          <AppNavigator />
-          <StatusBar
-            backgroundColor={THEME.DARK_COLOR}
-            barStyle="light-content"
-          />
-        </BoardState>
-      </UserState>
-    </AppState>
+      <AppState>
+        <UserState>
+          <BoardState>
+            <AppNavigator />
+            <StatusBar
+              backgroundColor={colors.background}
+              barStyle="light-content"
+            />
+          </BoardState>
+        </UserState>
+      </AppState>
   );
 }

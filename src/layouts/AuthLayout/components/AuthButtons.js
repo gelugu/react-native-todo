@@ -2,7 +2,7 @@ import { AntDesign } from "@expo/vector-icons";
 import React, { useContext } from "react";
 import { StyleSheet, View } from "react-native";
 import { userContext } from "../../../context/contexts";
-import { THEME } from "../../../themes";
+import { colors, iconSize } from "../../../styleConfig";
 import { Fade } from "../../../ui/animations/Fade";
 import { Spin } from "../../../ui/animations/Spin";
 import { AppButton } from "../../../ui/AppButton";
@@ -59,11 +59,11 @@ export const AuthButtons = ({}) => {
             <AppButton onPress={handlerSignIn}>
               <AntDesign
                 name="arrowright"
-                size={THEME.ICON_SMALL}
+                size={iconSize.small}
                 color={
                   emailValid && passwordValid
-                    ? THEME.LIGHT_COLOR
-                    : THEME.GREY_COLOR
+                    ? colors.primary
+                    : colors.primaryOpacity
                 }
               />
             </AppButton>
@@ -73,11 +73,11 @@ export const AuthButtons = ({}) => {
             <AppButton onPress={handlerSignUp}>
               <AntDesign
                 name="arrowup"
-                size={THEME.ICON_SMALL}
+                size={iconSize.small}
                 color={
                   emailValid && passwordValid && passwordEquile
-                    ? THEME.LIGHT_COLOR
-                    : THEME.GREY_COLOR
+                  ? colors.primary
+                  : colors.primaryOpacity
                 }
               />
             </AppButton>
@@ -90,7 +90,7 @@ export const AuthButtons = ({}) => {
 
 const styles = StyleSheet.create({
   buttons: {
-    width: THEME.TASK_WIDTH,
+    width: "100%",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-around",

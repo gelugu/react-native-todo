@@ -8,7 +8,6 @@ import {
   RefreshControl,
 } from "react-native";
 
-
 // context
 import { userContext } from "../../context/contexts";
 
@@ -18,8 +17,9 @@ import { THEME } from "../../themes";
 // icons
 import { MaterialIcons } from "@expo/vector-icons";
 import { AppError } from "../../ui/AppError";
-import {AppLoading} from "../../ui/AppLoading"
+import { AppLoading } from "../../ui/AppLoading";
 import { AppTextBold } from "../../ui/AppTextBold";
+import { AppButton } from "../../ui/AppButton";
 
 export const UserLayout = ({ navigation }) => {
   const { user } = useContext(userContext);
@@ -28,7 +28,9 @@ export const UserLayout = ({ navigation }) => {
     <View style={styles.container}>
       <AppLoading />
       <AppError />
-
+      <AppButton onPress={navigation.navigate.bind(null, "AddBoard")}>
+        <AppTextBold>Back</AppTextBold>
+      </AppButton>
       <AppTextBold>{user.displayName}</AppTextBold>
     </View>
   );

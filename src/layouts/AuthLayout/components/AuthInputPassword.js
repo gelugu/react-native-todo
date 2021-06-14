@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
-import { THEME } from "../../../themes";
+import { colors, fontSize } from "../../../styleConfig";
 import { AppTextBold } from "../../../ui/AppTextBold";
 import { authContext } from "../AuthContext";
 
@@ -37,7 +37,7 @@ export const AuthInputPassword = ({}) => {
       <TextInput
         style={{
           ...styles.input,
-          borderColor: passwordValid ? THEME.LIGHT_COLOR : THEME.RED_COLOR,
+          borderColor: passwordValid ? colors.primary : colors.warn,
         }}
         textContentType="password"
         secureTextEntry={true}
@@ -50,7 +50,7 @@ export const AuthInputPassword = ({}) => {
         autoCompleteType="password"
         autoCorrect={false}
         enablesReturnKeyAutomatically={false}
-        placeholderTextColor={THEME.GREY_COLOR}
+        placeholderTextColor={colors.textOpacity}
         returnKeyType={emailExist ? "go" : "next"}
       />
     </View>
@@ -60,17 +60,16 @@ export const AuthInputPassword = ({}) => {
 const styles = StyleSheet.create({
   label: {
     marginBottom: 5,
-    fontSize: THEME.FONT_SIZE_SMALL,
+    fontSize: fontSize.small,
   },
   input: {
     paddingHorizontal: 10,
     marginBottom: 15,
 
-    width: THEME.TASK_WIDTH,
+    borderWidth: 1,
+    borderRadius: 5,
 
-    borderWidth: THEME.BORDER_WIDTH,
-    borderRadius: THEME.TASK_RADIUS,
-
-    color: THEME.TEXT_COLOR,
+    color: colors.text,
+    fontFamily: "CourierPrimeRegular",
   },
 });

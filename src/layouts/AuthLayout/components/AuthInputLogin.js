@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
+import { colors, fontSize } from "../../../styleConfig";
 import { THEME } from "../../../themes";
 import { AppTextBold } from "../../../ui/AppTextBold";
 import { authContext } from "../AuthContext";
@@ -27,7 +28,7 @@ export const AuthInputLogin = () => {
       <TextInput
         style={{
           ...styles.input,
-          borderColor: emailValid ? THEME.LIGHT_COLOR : THEME.RED_COLOR,
+          borderColor: emailValid ? colors.primary : colors.warn,
         }}
         value={email}
         onChangeText={handlerOnChange}
@@ -38,7 +39,7 @@ export const AuthInputLogin = () => {
         autoFocus
         enablesReturnKeyAutomatically={false}
         keyboardType="email-address"
-        placeholderTextColor={THEME.GREY_COLOR}
+        placeholderTextColor={colors.textOpacity}
         returnKeyType="next"
         textContentType="emailAddress"
       />
@@ -49,17 +50,16 @@ export const AuthInputLogin = () => {
 const styles = StyleSheet.create({
   label: {
     marginBottom: 5,
-    fontSize: THEME.FONT_SIZE_SMALL,
+    fontSize: fontSize.small,
   },
   input: {
     paddingHorizontal: 10,
     marginBottom: 15,
 
-    width: THEME.TASK_WIDTH,
+    borderWidth: 1,
+    borderRadius: 5,
 
-    borderWidth: THEME.BORDER_WIDTH,
-    borderRadius: THEME.TASK_RADIUS,
-
-    color: THEME.TEXT_COLOR,
+    color: colors.text,
+    fontFamily: "CourierPrimeRegular",
   },
 });

@@ -29,7 +29,6 @@ export const THEME = {
 
   HEADER: {
     paddingTop: Dimensions.get("screen").height - Dimensions.get("window").height + 10,
-
   },
 
   HEADER_HEIGHT: Dimensions.get("screen").height - Dimensions.get("window").height + 10,

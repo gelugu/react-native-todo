@@ -13,6 +13,7 @@ import { AuthInputLogin } from "./components/AuthInputLogin";
 import { AuthInputPassword } from "./components/AuthInputPassword";
 import { AuthInputPasswordConfirm } from "./components/AuthInputPasswordConfirm";
 import { AuthButtons } from "./components/AuthButtons";
+import { colors } from "../../styleConfig";
 
 export const AuthLayout = ({ navigation }) => {
   const { user } = useContext(userContext);
@@ -40,10 +41,12 @@ export const AuthLayout = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    ...THEME.CONTAINER_CENTER,
-    backgroundColor: THEME.DARK_COLOR,
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: colors.background,
   },
   inputs: {
-    justifyContent: "space-around",
+    marginVertical: 15,
   },
 });

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
-import { THEME } from "../../../themes";
+import { colors, fontSize } from "../../../styleConfig";
 import { Fade } from "../../../ui/animations/Fade";
 import { AppTextBold } from "../../../ui/AppTextBold";
 import { authContext } from "../AuthContext";
@@ -16,7 +16,7 @@ export const AuthInputPasswordConfirm = ({}) => {
         <TextInput
           style={{
             ...styles.input,
-            borderColor: passwordEquile ? THEME.LIGHT_COLOR : THEME.RED_COLOR,
+            borderColor: passwordEquile ? colors.primary : colors.warn,
           }}
           textContentType="password"
           secureTextEntry={true}
@@ -27,7 +27,7 @@ export const AuthInputPasswordConfirm = ({}) => {
           autoCompleteType="password"
           autoCorrect={false}
           enablesReturnKeyAutomatically={false}
-          placeholderTextColor={THEME.GREY_COLOR}
+          placeholderTextColor={colors.textOpacity}
           returnKeyType="go"
         />
       </View>
@@ -38,17 +38,16 @@ export const AuthInputPasswordConfirm = ({}) => {
 const styles = StyleSheet.create({
   label: {
     marginBottom: 5,
-    fontSize: THEME.FONT_SIZE_SMALL,
+    fontSize: fontSize.small,
   },
   input: {
     paddingHorizontal: 10,
     marginBottom: 15,
 
-    width: THEME.TASK_WIDTH,
+    borderWidth: 1,
+    borderRadius: 5,
 
-    borderWidth: THEME.BORDER_WIDTH,
-    borderRadius: THEME.TASK_RADIUS,
-
-    color: THEME.TEXT_COLOR,
+    color: colors.text,
+    fontFamily: "CourierPrimeRegular",
   },
 });
