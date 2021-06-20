@@ -1,15 +1,15 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { StyleSheet, View, TextInput, FlatList } from "react-native";
 
+import { Wrapper } from "../../../ui/Wrapper";
 import { AppButton } from "../../../ui/AppButton";
 import { AppText } from "../../../ui/AppText";
 import { boardContext } from "../../../context/contexts";
 import { taskPlaceholders, boardPlaceholders } from "../../../placeholders";
 
-import { THEME } from "../../../themes";
-
 import { MaterialIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
+import { colors, deviceWidth, fontSize, iconSize } from "../../../styleConfig";
 
 export const AddBoard = ({ navigation }) => {
   const { addBoard } = useContext(boardContext);
@@ -17,8 +17,18 @@ export const AddBoard = ({ navigation }) => {
   const [taskList, setTaskList] = useState([]);
   const [currentTitle, setCurrentTitle] = useState("");
   const [boardTitle, setBoardTitle] = useState("");
+  const [boardPlaceholder, setBoardPlaceholder] = useState("");
+  const [taskPlaceholder, setTaskPlaceholder] = useState("");
 
   let newTaskRef = useRef(null);
+
+  useEffect(() => {
+    setBoardPlaceholder(boardPlaceholders());
+  }, []);
+
+  useEffect(() => {
+    setTaskPlaceholder(taskPlaceholders());
+  }, [newTaskRef]);
 
   const handleDone = () => {
     newTaskRef = null;
@@ -42,7 +52,7 @@ export const AddBoard = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <Wrapper>
       <View style={styles.block}>
         <View style={styles.header}>
           <TextInput
@@ -54,12 +64,17 @@ export const AddBoard = ({ navigation }) => {
               newTaskRef.focus();
             }}
             clearButtonMode={"while-editing"}
-            placeholder={boardPlaceholders()}
+            placeholder={boardPlaceholder}
+            placeholderTextColor={colors.textOpacity}
             maxLength={30}
           />
           {boardTitle ? (
             <AppButton onPress={handleDone}>
-              <MaterialIcons name="done" size={24} color={THEME.DARK_COLOR} />
+              <MaterialIcons
+                name="done"
+                size={iconSize.small}
+                color={colors.primary}
+              />
             </AppButton>
           ) : null}
         </View>
@@ -72,8 +87,8 @@ export const AddBoard = ({ navigation }) => {
                 <View style={styles.taskRow}>
                   <Entypo
                     name="dot-single"
-                    size={24}
-                    color={THEME.DARK_COLOR}
+                    size={iconSize.small}
+                    color={colors.primary}
                   />
                   <AppText>{item}</AppText>
                 </View>
@@ -84,8 +99,8 @@ export const AddBoard = ({ navigation }) => {
                 <AppButton>
                   <MaterialIcons
                     name="add"
-                    size={24}
-                    color={THEME.DARK_COLOR}
+                    size={iconSize.small}
+                    color={colors.primary}
                   />
                 </AppButton>
                 <TextInput
@@ -93,7 +108,8 @@ export const AddBoard = ({ navigation }) => {
                   style={styles.addTask}
                   onChangeText={setCurrentTitle}
                   onEndEditing={handleAddTask}
-                  placeholder={taskPlaceholders()}
+                  placeholder={taskPlaceholder}
+                  placeholderTextColor={colors.textOpacity}
                   // blurOnSubmit={false}
                   ref={(ref) => {
                     newTaskRef = ref;
@@ -105,8 +121,8 @@ export const AddBoard = ({ navigation }) => {
                   <AppButton onPress={handleAddTask}>
                     <MaterialIcons
                       name="done"
-                      size={24}
-                      color={THEME.DARK_COLOR}
+                      size={iconSize.small}
+                      color={colors.primary}
                     />
                   </AppButton>
                 ) : null}
@@ -117,13 +133,21 @@ export const AddBoard = ({ navigation }) => {
       </View>
       <View style={styles.buttons}>
         <AppButton onPress={handlerClose}>
-          <MaterialIcons name="arrow-back" size={36} color={THEME.DARK_COLOR} />
+          <MaterialIcons
+            name="arrow-back"
+            size={iconSize.regular}
+            color={colors.primary}
+          />
         </AppButton>
         <AppButton onPress={handleDone}>
-          <MaterialIcons name="done" size={36} color={THEME.DARK_COLOR} />
+          <MaterialIcons
+            name="done"
+            size={iconSize.regular}
+            color={colors.primary}
+          />
         </AppButton>
       </View>
-    </View>
+    </Wrapper>
   );
 };
 
@@ -133,12 +157,13 @@ AddBoard.navigationOptions = {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    ...THEME.CONTAINER_CENTER,
-    marginTop: THEME.HEADER_HEIGHT,
-  },
   block: {
-    ...THEME.BOARD,
+    width: deviceWidth * 0.9,
+    height: deviceWidth * 0.9,
+    borderWidth: 1,
+    borderColor: colors.secondary,
+    borderRadius: 20,
+    marginBottom: 10,
   },
   header: {
     flexDirection: "row",
@@ -147,9 +172,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   title: {
-    fontSize: THEME.FONT_SIZE,
-    borderBottomWidth: THEME.BORDER_WIDTH,
-    borderBottomColor: THEME.DARK_COLOR,
+    fontSize: fontSize.regular,
+    fontFamily: "CourierPrimeRegular",
+    color: colors.text,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.secondary,
     flex: 1,
   },
   list: {
@@ -162,9 +189,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   addTask: {
-    fontSize: THEME.FONT_SIZE_SMALL,
+    fontSize: fontSize.small,
+    fontFamily: "CourierPrimeRegular",
+    color: colors.text,
     borderBottomWidth: 1,
-    borderBottomColor: THEME.DARK_COLOR,
+    borderBottomColor: colors.secondary,
     flex: 1,
   },
   taskRow: {
@@ -174,7 +203,7 @@ const styles = StyleSheet.create({
   buttons: {
     flexDirection: "row",
     justifyContent: "space-between",
-    width: THEME.BOARD_SIZE,
+    width: deviceWidth * 0.9,
     paddingVertical: 20,
     paddingHorizontal: 30,
   },
